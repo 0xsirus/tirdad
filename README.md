@@ -4,9 +4,15 @@ https://bitguard.wordpress.com/?p=982
 
 # Usage
  Compile by running:
-     ./compile.sh
+ 
+`./compile.sh`
+
  Run as root:
-     ./load start
+ 
+`./load start`
+
  You can also disable the module with:
-     ./load stop
- After you disable it, the kernel continues to use its default algorithm to generate initial sequence numbers.
+ 
+`./load stop`
+
+ After you disable it, the kernel will continue to use its default algorithm to generate initial sequence numbers.
