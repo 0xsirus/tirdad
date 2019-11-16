@@ -8,7 +8,7 @@ https://bitguard.wordpress.com/?p=982
 # Usage
  Compile by running:
  
-`$./compile.sh`
+`$make`
 
  Run as root:
  
