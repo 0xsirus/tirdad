@@ -1,5 +1,8 @@
 # tirdad
-tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel to generate random tcp Initial Sequence Numbers for outgoing connections. You can refer to this bog post to get familiar with the original issue:
+tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel to generate random tcp Initial Sequence Numbers for IPv4 TCP outgoing connections.
+
+You can refer to this bog post to get familiar with the original issue:
+
 https://bitguard.wordpress.com/?p=982
 
 # Usage
