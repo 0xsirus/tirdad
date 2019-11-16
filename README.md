@@ -1,2 +1,2 @@
 # tirdad
-Tirdad kernel module for random ISN generation
+Tirdads kernel module for random ISN generation
