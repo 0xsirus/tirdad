@@ -7,4 +7,4 @@ all:
 	cd module; 	make -C $(build_path) M=$(pwd)
 	
 clean:
-	rm load module/tirdad
+	rm load module/tirdad.ko
