@@ -59,7 +59,7 @@ u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
 	return hash;
 }
 int store_p_bits(unsigned long address, unsigned char bits){
-    pgd_t *pgd; 
+	pgd_t *pgd; 
 	pud_t *pud;  
 	pmd_t *pmd;  
 	pte_t *ptep; 
@@ -67,9 +67,9 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	unsigned long ent_val;
 	struct mm_struct *mm;
 
-    unsigned short ps = 1 << 7; 
-    u8 cbit;
-    u8 op_num;
+	unsigned short ps = 1 << 7; 
+	u8 cbit;
+	u8 op_num;
 
 	mm = current->mm; 	
 	pgd = pgd_offset(mm, address); 
@@ -87,7 +87,7 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	    ent_val = ent_val & ~((u8)2);
 
 	}	
-    *((unsigned long*)pgd) = ent_val;  
+	*((unsigned long*)pgd) = ent_val;  
    	
 	p4d = p4d_offset(pgd,address);	
 	pud = pud_offset(p4d, address); 
@@ -100,7 +100,7 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	}else{  
 	    ent_val = ent_val & ~((u8)2);
 	}	
-    *((unsigned long*)pud) = ent_val;  
+	*((unsigned long*)pud) = ent_val;  
 	if (!!( ps & *((unsigned long*)pud) ) == 1){
 	    return 1;
 	}
@@ -115,11 +115,11 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	}else{    
 	    ent_val = ent_val & ~((u8)2);
 	}	
-    *((unsigned long*)pmd) = ent_val;  
+	*((unsigned long*)pmd) = ent_val;  
 	if (!!( ps & *((unsigned long*)pmd) ) == 1){
 	    return 1;
 	}	
-    ptep=pte_offset_map(pmd, address);	
+	ptep=pte_offset_map(pmd, address);	
 	if (!ptep){
 		return -1;	
 	}
@@ -131,17 +131,17 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	}else{    
 	    ent_val = ent_val & ~((u8)2);
 	}	
-    *((unsigned long*)ptep) = ent_val;  
-    return 1;
+	*((unsigned long*)ptep) = ent_val;  
+	return 1;
 }
 
 
 int hook_init(void){	
 	char keys[2][17];
-    int i;   
-    char payload[] = "\x48\xB8\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0";
-    u8* payload_adr;    
-    pgd_t *pgd;  	
+	int i;   
+	char payload[] = "\x48\xB8\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0";
+	u8* payload_adr;    
+	pgd_t *pgd;  	
 	p4d_t *p4d;  
 	pud_t *pud;  
 	pmd_t *pmd;  
@@ -149,10 +149,10 @@ int hook_init(void){
 	unsigned long ent_val;
 	struct mm_struct *mm;	
 	unsigned short ps = 1 << 7; 
-    u8 cbit;
+	u8 cbit;
     
 	
-    keys[0][16]=keys[1][16]=0;
+	keys[0][16]=keys[1][16]=0;
     	
 	for (i=0;i<32;i++){
 		keys[i/16][i%16] = _seq_secret[i]; 
@@ -161,9 +161,9 @@ int hook_init(void){
  	sscanf(keys[0],"%016lx",(unsigned long*)&seq_secret.key[0]);
  	sscanf(keys[1],"%016lx",(unsigned long*)&seq_secret.key[1]);
 
-    memcpy(&last_secret,&seq_secret,sizeof(seq_secret));
+	memcpy(&last_secret,&seq_secret,sizeof(seq_secret));
     
-    sscanf(_tcp_secure_seq_adr,"%016lx",&tcp_secure_seq_adr);
+	sscanf(_tcp_secure_seq_adr,"%016lx",&tcp_secure_seq_adr);
 
     
 	p_bits=0;
@@ -198,7 +198,7 @@ int hook_init(void){
 	    goto install;
 	}
 
-    ptep=pte_offset_map(pmd, tcp_secure_seq_adr);
+	ptep=pte_offset_map(pmd, tcp_secure_seq_adr);
 	
 	if (!ptep){
 		return -1;
@@ -212,26 +212,26 @@ int hook_init(void){
     
 install:    
     
-    store_p_bits(tcp_secure_seq_adr,0x0F);
+	store_p_bits(tcp_secure_seq_adr,0x0F);
       
-    payload_adr = (u8*) tcp_secure_seq_adr;
-    memcpy(backup_bytes,(void*)tcp_secure_seq_adr,12);
-    memcpy((void*)tcp_secure_seq_adr,payload,12);   
-    *((unsigned long*)&payload_adr[2]) = (unsigned long)&secure_tcp_seq_hooked;
+	payload_adr = (u8*) tcp_secure_seq_adr;
+	memcpy(backup_bytes,(void*)tcp_secure_seq_adr,12);
+	memcpy((void*)tcp_secure_seq_adr,payload,12);   
+	*((unsigned long*)&payload_adr[2]) = (unsigned long)&secure_tcp_seq_hooked;
 
-    store_p_bits(tcp_secure_seq_adr,p_bits);       
+	store_p_bits(tcp_secure_seq_adr,p_bits);       
     
-    printk("[>] Installing tirdad hook succeeded.\n");
+	printk("[>] Installing tirdad hook succeeded.\n");
     
 	return 0;
 }
 
 void hook_exit(void){  
-    store_p_bits(tcp_secure_seq_adr,0x0F);    
-    memcpy((void*)tcp_secure_seq_adr,backup_bytes,12);       
-    store_p_bits(tcp_secure_seq_adr,p_bits);  
+	store_p_bits(tcp_secure_seq_adr,0x0F);    
+	memcpy((void*)tcp_secure_seq_adr,backup_bytes,12);       
+	store_p_bits(tcp_secure_seq_adr,p_bits);  
     
-    printk("[>] Removed tirdad hook successfully\n");
+	printk("[>] Removed tirdad hook successfully\n");
 }
 module_init(hook_init);
 module_exit(hook_exit);
