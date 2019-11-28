@@ -8,7 +8,7 @@ It is leaked in any outgoing traffic.
 This can allow side-channel attacks because sensitive information about
 a system's CPU activity is leaked.
 
-It may prove very dangerous for long-running cryptographic operations. [xx]
+It may prove very dangerous for long-running cryptographic operations. [A]
 
 Research has demonstrated that it can be used for de-anonymization of
 location-hidden services. [1]
@@ -20,7 +20,7 @@ Clock skew,
 - can be induced by an attacker through producing load on the victim machine.
 
 Quote Security researcher Steven J. Murdoch
-(University of Cambridge, Cambridge, UK) [x]
+(University of Cambridge, Cambridge, UK) [B]
 
 "What the Linux ISN leaks is the difference between two timestamps, not the
 timestamp itself. A difference lets you work out drift and skew, which can
@@ -28,7 +28,7 @@ help someone fingerprint the computer hardware, its environment and load. Of
 course that only works if you can probe a computer, and maintain the same
 source/destination port and IP address."
 
-Quote Mike Perry, developer at The Tor Project [xx]:
+Quote Mike Perry, developer at The Tor Project [A]:
 
 "... it is worth complaining to the kernel developers for the simple
 reason that adding the 64ns timer post-hash probably *does* leak side channels
@@ -55,8 +55,8 @@ References:
 - [5] ​http://lxr.free-electrons.com/source/net/core/secure_seq.c?v=3.16
 - [6] https://trac.torproject.org/projects/tor/ticket/16659
 - [7] https://phabricator.whonix.org/T543
-- [x] https://trac.torproject.org/projects/tor/ticket/16659#comment:18
-- [xx] https://trac.torproject.org/projects/tor/ticket/16659#comment:10
+- [A] https://trac.torproject.org/projects/tor/ticket/16659#comment:10
+- [B] https://trac.torproject.org/projects/tor/ticket/16659#comment:18
 ## How to install `tirdad` using apt-get ##
 
 1\. Download [Whonix's Signing Key]().
