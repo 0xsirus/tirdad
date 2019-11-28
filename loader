@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -x
+set -e
+
+test -f /usr/lib/tirdad/load
+test -x /usr/lib/tirdad/load
+
+old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || true
+
+if [ "$old_kptr_restrict" = "2" ]; then
+   sysctl -w kernel.kptr_restrict=1
+   re_enable=true
+fi
+
+load_exit_code="$?"
+/usr/lib/tirdad/load start || { load_exit_code="$?" ; true; };
+
+if [ "$re_enable" = "true" ]; then
+   sysctl -w kernel.kptr_restrict=2
+fi
+
+exit "$load_exit_code"

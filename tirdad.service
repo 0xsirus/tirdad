@@ -1,0 +1,14 @@
+[Unit]
+Description=tirdad
+Documentation=https://forums.whonix.org/t/tcp-secure-sn-generation-in-linux-and-its-privacy-issues-tirdad-kernel-module-for-random-isn-generation/8552
+
+Before=network-pre.target
+After=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/tirdad/loader
+
+[Install]
+WantedBy=multi-user.target
