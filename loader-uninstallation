@@ -6,5 +6,5 @@ set -e
 rm -f /usr/lib/tirdad/load
 
 if [ -d /usr/lib/tirdad ]; then
-   rmdir /usr/lib/tirdad || true
+   rmdir /usr/lib/tirdad 2>/dev/null || true
 fi
