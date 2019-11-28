@@ -5,3 +5,4 @@
 
 module/* usr/src/tirdad-0.1/src
 Makefile usr/src/tirdad-0.1/
+load.c usr/src/tirdad-0.1/
