@@ -1,3 +1,159 @@
+commit 36a47e4d6db5b3173731299a448a61e413dae213
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:38:44 2019 -0500
+
+    description
+
+commit 3a42d14cb3a51cc5119748d5e344867d9081d142
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:11:14 2019 -0500
+
+    readme
+
+commit 89c053d0baa17df86845b775a88cc8407d80ed72
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:10:59 2019 -0500
+
+    description
+
+commit ab2a5e6fbeca49d602003a7d4a6a7330fa4283c3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:01:55 2019 -0500
+
+    readme
+
+commit bba7fdc948d82dcc248639120c6d7057ba049989
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:01:42 2019 -0500
+
+    description
+
+commit 10008b1a036a316d30f7e69b18a79bf38052fc5e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:00:22 2019 -0500
+
+    readme
+
+commit 58959bb190d93c5987cac59ab97f05e873d55c7c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 09:00:08 2019 -0500
+
+    description
+
+commit 059bcecd6f9cbc136068c2fc4c3d191978b960e0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:58:11 2019 -0500
+
+    readme
+
+commit 6f5d0dc49fa40a0208eaf1fdc857a6919fe3633b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:57:58 2019 -0500
+
+    description
+
+commit 86de611d162b08b4aa6d3d9668fdf487e10f8486
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:57:21 2019 -0500
+
+    readme
+
+commit f5d3ebc834c1a6524775d9fe04cb3710328ee4ca
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:57:06 2019 -0500
+
+    description
+
+commit 66743ce0b86e6824eb78b5463a9f16723efbc5cf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:55:08 2019 -0500
+
+    description
+
+commit a625bca963b2f0e473e89f35946a1457a8151140
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:53:32 2019 -0500
+
+    readme
+
+commit 615c0a8d1cc13533fd51ce0b8fd494754e71e839
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:52:50 2019 -0500
+
+    description
+
+commit 4694afe3e7fd4220b6c48d2c554bd2d88d4b8923
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:10:00 2019 -0500
+
+    description
+
+commit 5f3719e3e01994192c484d2dcef94ed9f580f17c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 08:06:47 2019 -0500
+
+    description
+
+commit f967fce9fe835ba80b42bd4dad9e94ce2908a984
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 07:45:52 2019 -0500
+
+    readme
+
+commit 7eec7305a9bba46817f9a974f63cde24d4b009d7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 07:36:12 2019 -0500
+
+    silent
+
+commit 67bf3b2e3e75be68c24fb3073a3791a60507f5e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 07:35:43 2019 -0500
+
+    load kernel module at boot time through systemd
+
+commit 24522939ebd23519403a1323c25b0abe0417f9c8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 07:14:01 2019 -0500
+
+    loader-uninstallation
+
+commit 94326bc7ede977aeffcc7fdf0cf63c79a3e44729
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 07:08:36 2019 -0500
+
+    use "path agnostic" modprobe rather than insmod
+
+commit 3ac8ee2015607bff7f00d0daa9404244f76b8c16
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 07:08:19 2019 -0500
+
+    loader installation
+
+commit 1e4da0185d0c0c9b27ea9eb0b0963e4520ccdee1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 06:31:35 2019 -0500
+
+    fix path
+
+commit 30316f6c7ac711bbe28c53b7a20b8a2b6c75cca2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 06:28:45 2019 -0500
+
+    fix, add load.c
+
+commit 5861dedf44503caf3966ef7d8be58a541459df51
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 06:26:15 2019 -0500
+
+    add changelog.upstream
+
+commit 3342934a443bb1153d96125fc269e4df9c33ae08
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 06:26:02 2019 -0500
+
+    initial packaging
+
 commit de53b1489cc9829a87e9a4e295c6e2b892408793
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 28 04:47:03 2019 -0500
