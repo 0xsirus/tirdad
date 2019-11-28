@@ -82,7 +82,7 @@ int main(int argc,char **argv){
 		}
 
 		secure_tcp_seq_adr = get_adr("secure_tcp_seq",kallsyms);
-		sprintf(cmd,"insmod %s/module/tirdad.ko _seq_secret='%s' _tcp_secure_seq_adr='%016lx'",cwd,sec_str,secure_tcp_seq_adr);
+		sprintf(cmd,"modprobe tirdad _seq_secret='%s' _tcp_secure_seq_adr='%016lx'",sec_str,secure_tcp_seq_adr);
 		printf("[>] Installing module...\n");
 		system(cmd);
 		printf("[>] Exiting normally...\n");
