@@ -1,4 +1,4 @@
-# CPU Information Leak Protection #
+# TCP ISN CPU Information Leak Protection #
 
 TCP Initial Sequence Numbers Randomization to prevent TCP ISN based CPU
 Information Leaks.
