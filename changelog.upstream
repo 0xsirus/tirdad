@@ -1,0 +1,193 @@
+commit de53b1489cc9829a87e9a4e295c6e2b892408793
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 04:47:03 2019 -0500
+
+    complete make clean
+
+commit 27b119fea34f63168dff3e9571900e270c7bc846
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 04:42:54 2019 -0500
+
+    add module/modules.order to make clean
+
+commit 6360b6932c236c41cfe2a83992bb4d6e168d53ed
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 04:41:16 2019 -0500
+
+    use `rm` with `-f` in Makefile to make the script idempotent
+    
+    and not exit non-zero (error) in case there are no files to be deleted
+
+commit 7d2b22638e0f38ce58b69ba2222b9f4de02c2c70
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 04:40:21 2019 -0500
+
+    typo
+
+commit 734cedf66169887a764488158ca1782a5e9f767c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 04:39:15 2019 -0500
+
+    remove trailing spaces
+
+commit 4b9784732807e60045b2953391c1ed1ea9813326
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sun Nov 17 10:02:52 2019 -0700
+
+    Update README.md
+
+commit 576f2b81fb98732101c6321fa75e7d056c9f3b6d
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:55:47 2019 -0700
+
+    Update Makefile
+
+commit 5ff3e68ad527e8350e16857104532364145e8a96
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:53:28 2019 -0700
+
+    Update Makefile
+
+commit bedebcacf9c4956908862ba60b85a36dc7133dac
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:51:56 2019 -0700
+
+    Update README.md
+
+commit 3941b9ee92229992d33190154134670567ad314c
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:48:27 2019 -0700
+
+    Rename MakeFile to Makefile
+
+commit b49a3bdebdd01ad1207e88323bbc758215ba346c
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:46:37 2019 -0700
+
+    Delete compile.sh
+
+commit 5fe6d995bdc6bf613d0cb221adc9495facc58a94
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:45:43 2019 -0700
+
+    Update load.c
+
+commit 0ee2dfd780ff9b47e46a3b88c199f01a376332f1
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:45:10 2019 -0700
+
+    Update MakeFile
+
+commit d78a22a86b4bd72e685be2a60b88729ca480c543
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:44:31 2019 -0700
+
+    Delete tirdad.c
+
+commit 6711409bb5c177034e93c2ecb3f2536be649eab0
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:44:04 2019 -0700
+
+    Create Makefile
+
+commit 43ed155a341ba95d83f7d0f73ab4496b0545f31a
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 15:43:36 2019 -0700
+
+    initial release
+
+commit 93420b7a282536a64cd4a1ae5cd045c6470f03e9
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 14:17:50 2019 -0700
+
+    Create COPYING
+
+commit f92d1a87a4b665a4577b0dbb50a64a7107ebfe55
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 14:16:25 2019 -0700
+
+    Create LICENSE
+
+commit a0592b8147b03b6416abf6514500ec78a936a7a3
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 00:19:37 2019 -0700
+
+    Fix formatting
+
+commit ffb8f62aadea1936af9b80359dd4276f8ebc3cac
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 00:17:34 2019 -0700
+
+    Create load.c
+
+commit 7f050f45ef1704a59590b62a05f06bc03ed74db7
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 16 00:15:40 2019 -0700
+
+    Fix formating - initial release
+
+commit 90c893e33f609bd96ca5d4e0c7360071dac8b735
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:26:01 2019 -0700
+
+    Update README.md
+
+commit 71ad0f6fd0ed1898c5ac26ec098ed2eb1227b4b4
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:24:40 2019 -0700
+
+    Update README.md
+
+commit 43deb8073521ed7dce4e369fbbf45c37ae7559be
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:18:27 2019 -0700
+
+    Update README.md
+
+commit fe1477e7f4c365ebaf353ab4de78cd3bf49f7f96
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:17:48 2019 -0700
+
+    Create MakeFile
+
+commit afee61c8e1931cc83a85f713213fddebe03a9349
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:17:21 2019 -0700
+
+    Compile the loader and the module
+
+commit 5fbbd9527eb7a44cc61b15bb83ec4a16edd0d57b
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:16:37 2019 -0700
+
+    Initial release
+
+commit e8327bb78ef8d8e8b0c7449341e5593fae19de9c
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:12:12 2019 -0700
+
+    Update README.md
+
+commit 22047244c597e6f7ce978c26708ce4629b05424b
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:11:46 2019 -0700
+
+    Update README.md
+
+commit 9c3269102425c1d1ad23a7a683c548357a452540
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:10:24 2019 -0700
+
+    Update README.md
+
+commit e2686b04b9df361e0b30abcf223d996a373be420
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:04:19 2019 -0700
+
+    Update README.md
+
+commit 986a776cfad6083bd909374930e1ce3fa6887902
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Fri Nov 15 19:03:57 2019 -0700
+
+    Initial commit
