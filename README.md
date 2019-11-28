@@ -6,7 +6,7 @@ You can refer to this bog post to get familiar with the original issue:
 https://bitguard.wordpress.com/?p=982
 
 # Reuirements
-This module has been written for x86_64 architecture and will run on a Linux kernel no older than 4.14. For the build process you will need to have the correct kernel header files already installed on your system. These header files are usually available in your apt repositories. 
+This module has been written for x86_64 architecture and will run on a Linux kernel no older than 4.14. For the build process you will need to have the correct kernel header files already installed on your system. These header files are usually available in your apt repositories.
 
 An example installation of the header files:
 ```
@@ -22,7 +22,7 @@ apt-get install linux-headers-`uname -r`
 `#./load start`
 
  You can also disable the module with:
- 
+
 `#./load stop`
 
  After you disable it, the kernel will continue to use its default algorithm to generate initial sequence numbers.

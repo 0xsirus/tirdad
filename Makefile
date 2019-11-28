@@ -4,6 +4,6 @@ pwd := $(shell pwd)/module
 all:
 	gcc -oload load.c
 	cd module; make -C $(build_path) M=$(pwd)
-	
+
 clean:
 	rm load module/tirdad.ko
