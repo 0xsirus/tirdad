@@ -19,6 +19,7 @@ Description: TCP Initial Sequence Numbers Randomization
  to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
  .
  You can refer to this bog post to get familiar with the original issue:
+ An analysis of TCP secure SN generation in Linux and its privacy issues
  https://bitguard.wordpress.com/?p=982
  .
  This metapackage depends tirdad-dkms.
