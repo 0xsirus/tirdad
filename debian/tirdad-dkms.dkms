@@ -20,3 +20,4 @@ MAKE[0]="make all"
 CLEAN[0]="make clean"
 
 POST_BUILD="loader-installation"
+POST_REMOVE="loader-uninstallation"
