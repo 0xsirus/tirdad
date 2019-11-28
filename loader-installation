@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -x
+set -e
+
+mkdir -p /usr/lib/tirdad
+cp ./load /usr/lib/tirdad/load
