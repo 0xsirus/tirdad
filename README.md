@@ -1,28 +1,52 @@
-# tirdad
-tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
+# TCP Initial Sequence Numbers Randomization #
 
-You can refer to this bog post to get familiar with the original issue:
+tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel
+to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
 
-https://bitguard.wordpress.com/?p=982
+This metapackage depends tirdad-dkms.
+## How to install `tirdad` using apt-get ##
 
-# Requirements
-This module has been written for x86_64 architecture and will run on a Linux kernel no older than 4.14. For the build process you will need to have the correct kernel header files already installed on your system. These header files are usually available in your apt repositories.
+1\. Download [Whonix's Signing Key]().
 
-An example installation of the header files:
 ```
-apt-get install linux-headers-`uname -r`
+wget https://www.whonix.org/patrick.asc
 ```
-# Usage
- Compile by running:
 
-`$make`
+Users can [check Whonix Signing Key](https://www.whonix.org/wiki/Whonix_Signing_Key) for better security.
 
- Run as root:
+2\. Add Whonix's signing key.
 
-`#./load start`
+```
+sudo apt-key --keyring /etc/apt/trusted.gpg.d/whonix.gpg add ~/patrick.asc
+```
 
- You can also disable the module with:
+3\. Add Whonix's APT repository.
 
-`#./load stop`
+```
+echo "deb https://deb.whonix.org buster main contrib non-free" | sudo tee /etc/apt/sources.list.d/whonix.list
+```
 
- After you disable it, the kernel will continue to use its default algorithm to generate initial sequence numbers.
+4\. Update your package lists.
+
+```
+sudo apt-get update
+```
+
+5\. Install `tirdad`.
+
+```
+sudo apt-get install tirdad
+```
+
+## How to Build deb Package ##
+
+Replace `apparmor-profile-torbrowser` with the actual name of this package with `tirdad` and see [instructions](https://www.whonix.org/wiki/Dev/Build_Documentation/apparmor-profile-torbrowser).
+
+## Contact ##
+
+* [Free Forum Support](https://forums.whonix.org)
+* [Professional Support](https://www.whonix.org/wiki/Professional_Support)
+
+## Donate ##
+
+`tirdad` requires [donations](https://www.whonix.org/wiki/Donate) to stay alive!
