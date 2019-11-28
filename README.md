@@ -41,8 +41,9 @@ tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel
 to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
 
 You can refer to this bog post to get familiar with the original issue:
-An analysis of TCP secure SN generation in Linux and its privacy issues
-https://bitguard.wordpress.com/?p=982
+
+- An analysis of TCP secure SN generation in Linux and its privacy issues
+- https://bitguard.wordpress.com/?p=982
 
 This metapackage depends on tirdad-dkms.
 
