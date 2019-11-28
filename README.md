@@ -5,7 +5,7 @@ You can refer to this bog post to get familiar with the original issue:
 
 https://bitguard.wordpress.com/?p=982
 
-# Reuirements
+# Requirements
 This module has been written for x86_64 architecture and will run on a Linux kernel no older than 4.14. For the build process you will need to have the correct kernel header files already installed on your system. These header files are usually available in your apt repositories. 
 
 An example installation of the header files:
