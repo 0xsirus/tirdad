@@ -1,6 +1,6 @@
 # CPU Information Leak Protection #
 
-TCP Initial Sequence Numbers Randomization to prevent ISN based CPU
+TCP Initial Sequence Numbers Randomization to prevent TCP ISN based CPU
 Information Leaks.
 
 The Linux kernel has a side-channel information leak bug.
@@ -44,20 +44,20 @@ You can refer to this bog post to get familiar with the original issue:
 An analysis of TCP secure SN generation in Linux and its privacy issues
 https://bitguard.wordpress.com/?p=982
 
-This metapackage depends tirdad-dkms.
+This metapackage depends on tirdad-dkms.
 
 References:
 
-[1]​ https://www.cl.cam.ac.uk/~sjm217/papers/ccs06hotornot.pdf
-[2]​ http://caia.swin.edu.au/talks/CAIA-TALK-080728A.pdf
-[3]​ http://www.cl.cam.ac.uk/~sjm217/papers/ih05coverttcp.pdf
-[4]​ https://stackoverflow.com/a/12232126
-[5] ​http://lxr.free-electrons.com/source/net/core/secure_seq.c?v=3.16
-[6] https://trac.torproject.org/projects/tor/ticket/16659
-[7] https://phabricator.whonix.org/T543
+- [1]​ https://www.cl.cam.ac.uk/~sjm217/papers/ccs06hotornot.pdf
+- [2]​ http://caia.swin.edu.au/talks/CAIA-TALK-080728A.pdf
+- [3]​ http://www.cl.cam.ac.uk/~sjm217/papers/ih05coverttcp.pdf
+- [4]​ https://stackoverflow.com/a/12232126
+- [5] ​http://lxr.free-electrons.com/source/net/core/secure_seq.c?v=3.16
+- [6] https://trac.torproject.org/projects/tor/ticket/16659
+- [7] https://phabricator.whonix.org/T543
 
-[x] https://trac.torproject.org/projects/tor/ticket/16659#comment:18
-[xx] https://trac.torproject.org/projects/tor/ticket/16659#comment:10
+- [x] https://trac.torproject.org/projects/tor/ticket/16659#comment:18
+- [xx] https://trac.torproject.org/projects/tor/ticket/16659#comment:10
 ## How to install `tirdad` using apt-get ##
 
 1\. Download [Whonix's Signing Key]().
