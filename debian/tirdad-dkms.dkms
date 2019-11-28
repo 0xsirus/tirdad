@@ -1,0 +1,20 @@
+## Copyright (C) 2019 - 2019 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+PACKAGE_NAME="tirdad"
+
+## TODO: how?
+#PACKAGE_VERSION="#MODULE_VERSION#"
+
+PACKAGE_VERSION="0.1"
+
+BUILT_MODULE_LOCATION[0]="module"
+BUILT_MODULE_NAME[0]="tirdad"
+
+DEST_MODULE_LOCATION[0]="/extra"
+DEST_MODULE_NAME[0]="tirdad"
+
+AUTOINSTALL="yes"
+
+MAKE[0]="make all"
+CLEAN[0]="make clean"

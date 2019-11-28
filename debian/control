@@ -1,0 +1,31 @@
+## Copyright (C) 2019 - 2019 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+Source: tirdad
+Section: kernel
+Priority: optional
+Maintainer: Patrick Schleizer <adrelanos@riseup.net>
+Build-Depends: debhelper (>= 12), dkms
+Homepage: https://github.com/0xsirus/tirdad
+Vcs-Browser: https://github.com/Whonix/tirdad
+Vcs-Git: https://github.com/Whonix/tirdad.git
+Standards-Version: 4.3.0
+
+Package: tirdad
+Architecture: linux-amd64
+Depends: tirdad-dkms, ${misc:Depends}
+Description: TCP Initial Sequence Numbers Randomization
+ tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel
+ to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
+ .
+ This metapackage depends tirdad-dkms.
+
+Package: tirdad-dkms
+Architecture: linux-amd64
+Depends: linux-headers-amd64 [linux-amd64], ${shlibs:Depends}, ${misc:Depends}
+Description: TCP Initial Sequence Numbers Randomization - Source Code and DKMS
+ tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel
+ to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
+ .
+ This package uses DKMS to automatically build the tirdad kernel
+ module.
