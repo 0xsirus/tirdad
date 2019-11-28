@@ -15,7 +15,7 @@ Package: tirdad
 Architecture: linux-amd64
 Depends: tirdad-dkms, ${misc:Depends}
 Description: CPU Information Leak Protection
- TCP Initial Sequence Numbers Randomization to prevent ISN based CPU
+ TCP Initial Sequence Numbers Randomization to prevent TCP ISN based CPU
  Information Leaks.
  .
  The Linux kernel has a side-channel information leak bug.
