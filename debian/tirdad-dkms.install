@@ -3,6 +3,6 @@
 
 ## TODO: do not hardcode 0.1
 
-module/* usr/src/tirdad-0.1/src
+module/* usr/src/tirdad-0.1/module
 Makefile usr/src/tirdad-0.1/
 load.c usr/src/tirdad-0.1/
