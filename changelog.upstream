@@ -1,3 +1,127 @@
+commit 4b94fca1ed6d5a68d9776189eff1f78fc42962aa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 07:14:48 2019 -0500
+
+    copyright
+
+commit 71fdaf734eb1b16888754d11fb3f06a21f2c414f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 07:13:35 2019 -0500
+
+    Documentation=https://github.com/Whonix/tirdad
+
+commit 2882b262dba5dea6358e9ffa436f2e7dc40b8233
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:50:21 2019 -0500
+
+    copyright
+
+commit a1ad5a17df98dc05897815f1880b61d30aba8a1b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:49:59 2019 -0500
+
+    Disable debugging since we do not want random and secure_tcp_seq in systemd journal log.
+
+commit 6b28bf4be748d33bacf05db344200c9b27340ec1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:47:54 2019 -0500
+
+    sanity test: check string length of random string to be exactly 32
+
+commit 966244faf686635f70b4ecc675cc2dc2eee101f6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:43:21 2019 -0500
+
+    silence
+
+commit 34fb61942585f87efccd7d8ff53b918d47f4eba7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:42:21 2019 -0500
+
+    sanity test
+
+commit 4dd5fcfbec6bbc8b2c5a6b8b6ce55ee308a29d26
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:41:28 2019 -0500
+
+    sanity test
+
+commit 2f49a2d91ee0d53bf024e82d6a4440f26a047806
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:40:47 2019 -0500
+
+    improve debugging
+
+commit 1535b2eff2284709896744c503711c5a8aef6d94
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:39:23 2019 -0500
+
+    more sanity tests
+
+commit a2c97964c45a10410b17b5ffabe17535df7edc8c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:37:42 2019 -0500
+
+    more sanity tests
+
+commit 848d6b0f1895769107914d11c975bb0b086f63fd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:36:04 2019 -0500
+
+    fix
+
+commit bc34b564a59e31c38592c7427d0283bd421f6a0b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:35:16 2019 -0500
+
+    improve exit codes for easier debugging
+
+commit 2ae96e325186d0ce6923612caf752ec571c49f7d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:34:37 2019 -0500
+
+    sanity test
+
+commit f40058b243e9a82c1999b93b2dcc292171681f9e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:33:56 2019 -0500
+
+    sanity test
+
+commit de0815a15119172e1d53ac6ef923ca2ace9bf3a8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:33:27 2019 -0500
+
+    depend on bsdmainutils since it contains hexdump
+
+commit 21f6baad46a7d423cec2214adb48b0becd92002f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 06:32:23 2019 -0500
+
+    use /dev/random instead
+    
+    https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
+    
+    https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
+
+commit 877bb049b8bf79cea70104a890de78d923ef1831
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 05:11:17 2019 -0500
+
+    fix, reset kernel.kptr_restrict before erroring out in case of error
+
+commit 49bab393caa59f284e0a1e62ba0d33b6ccaa4c15
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 05:05:49 2019 -0500
+
+    code simplification: abolish C based loader and dkms hacks replace bash
+
+commit b0fe64402b81945016669d15db6ef53d31cdfdc1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 28 10:23:30 2019 -0500
+
+    bumped changelog version
+
 commit 36a47e4d6db5b3173731299a448a61e413dae213
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 28 09:38:44 2019 -0500
