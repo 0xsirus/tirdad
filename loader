@@ -24,7 +24,7 @@ if [ "$old_kptr_restrict" = "2" ]; then
    re_enable=true
 fi
 
-secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || error_code=10
+secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 10
 
 if [ "$secure_tcp_seq" = "" ]; then
    exit 11
