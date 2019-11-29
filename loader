@@ -3,7 +3,9 @@
 set -x
 set -e
 
-random="$(openssl rand -hex 16)"
+## https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
+## https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
+random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)"
 
 old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=2
 
