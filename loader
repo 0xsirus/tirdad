@@ -11,31 +11,31 @@ command -v awk >/dev/null || exit 5
 
 ## https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
 ## https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
-random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)"
+random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)" || exit 6
 
 if [ "$random" = "" ]; then
-   exit 6
+   exit 7
 fi
 
-old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=7
+old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=8
 
 if [ "$old_kptr_restrict" = "2" ]; then
-   sysctl -w kernel.kptr_restrict=1 || exit 8
+   sysctl -w kernel.kptr_restrict=1 || exit 9
    re_enable=true
 fi
 
-secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || error_code=9
+secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || error_code=10
 
 if [ "$secure_tcp_seq" = "" ]; then
-   exit 10
+   exit 11
 fi
 
 if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2 || error_code=11
+   sysctl -w kernel.kptr_restrict=2 || error_code=12
 fi
 
 if [ "$secure_tcp_seq" = "0000000000000000" ]; then
-   error_code=12
+   error_code=13
    exit "$error_code"
 fi
 
