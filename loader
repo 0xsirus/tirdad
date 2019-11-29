@@ -21,7 +21,7 @@ fi
 old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=9
 
 if [ "$old_kptr_restrict" = "2" ]; then
-   sysctl -w kernel.kptr_restrict=1 || exit 10
+   sysctl -w kernel.kptr_restrict=1 >/dev/null || exit 10
    re_enable=true
 fi
 
@@ -32,7 +32,7 @@ if [ "$secure_tcp_seq" = "" ]; then
 fi
 
 if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2 || error_code=13
+   sysctl -w kernel.kptr_restrict=2 >/dev/null || error_code=13
 fi
 
 if [ "$secure_tcp_seq" = "0000000000000000" ]; then
