@@ -18,25 +18,31 @@ if [ "$random" = "" ]; then
    exit 8
 fi
 
-old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=9
+string_length_of_random="${#random}"
+
+if [ ! "$string_length_of_random" = "32" ]; then
+   exit 9
+fi
+
+old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=10
 
 if [ "$old_kptr_restrict" = "2" ]; then
-   sysctl -w kernel.kptr_restrict=1 >/dev/null || exit 10
+   sysctl -w kernel.kptr_restrict=1 >/dev/null || exit 11
    re_enable=true
 fi
 
-secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 11
+secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 12
 
 if [ "$secure_tcp_seq" = "" ]; then
-   exit 12
+   exit 13
 fi
 
 if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2 >/dev/null || error_code=13
+   sysctl -w kernel.kptr_restrict=2 >/dev/null || error_code=1
 fi
 
 if [ "$secure_tcp_seq" = "0000000000000000" ]; then
-   error_code=14
+   error_code=15
    exit "$error_code"
 fi
 
