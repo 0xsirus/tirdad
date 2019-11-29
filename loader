@@ -3,21 +3,28 @@
 set -x
 set -e
 
-test -f /usr/lib/tirdad/load
-test -x /usr/lib/tirdad/load
+random="$(openssl rand -hex 16)"
 
-old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || true
+old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=2
 
 if [ "$old_kptr_restrict" = "2" ]; then
-   sysctl -w kernel.kptr_restrict=1
+   sysctl -w kernel.kptr_restrict=1 || exit 3
    re_enable=true
 fi
 
-load_exit_code="$?"
-/usr/lib/tirdad/load start || { load_exit_code="$?" ; true; };
+secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || error_code=4
 
-if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2
+if [ "$secure_tcp_seq" = "0000000000000000" ]; then
+   error_code=5
+   exit "$error_code"
 fi
 
-exit "$load_exit_code"
+if [ "$re_enable" = "true" ]; then
+   sysctl -w kernel.kptr_restrict=2 || error_code=6
+fi
+
+modprobe tirdad _seq_secret="$random" _tcp_secure_seq_adr="$secure_tcp_seq"
+
+if [ ! "$error_code" = "" ]; then
+   exit "$error_code"
+fi

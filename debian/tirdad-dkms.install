@@ -5,10 +5,6 @@
 
 module/* usr/src/tirdad-0.1/module
 Makefile usr/src/tirdad-0.1/
-load.c usr/src/tirdad-0.1/
-
-loader-installation usr/src/tirdad-0.1/
-loader-uninstallation usr/src/tirdad-0.1/
 
 loader usr/lib/tirdad/
 
