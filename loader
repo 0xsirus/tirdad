@@ -1,6 +1,9 @@
 #!/bin/bash
 
-set -x
+## Disable debugging since we do not want random and secure_tcp_seq in systemd
+## journal log.
+#set -x
+
 set -e
 
 test -e /dev/random || exit 2
