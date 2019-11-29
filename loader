@@ -4,38 +4,39 @@ set -x
 set -e
 
 test -e /dev/random || exit 2
+test -f /proc/kallsyms || exit 3
 
-command -v hexdump >/dev/null || exit 3
-command -v grep >/dev/null || exit 4
-command -v awk >/dev/null || exit 5
+command -v hexdump >/dev/null || exit 4
+command -v grep >/dev/null || exit 5
+command -v awk >/dev/null || exit 6
 
 ## https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
 ## https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
-random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)" || exit 6
+random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)" || exit 7
 
 if [ "$random" = "" ]; then
-   exit 7
+   exit 8
 fi
 
-old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=8
+old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=9
 
 if [ "$old_kptr_restrict" = "2" ]; then
-   sysctl -w kernel.kptr_restrict=1 || exit 9
+   sysctl -w kernel.kptr_restrict=1 || exit 10
    re_enable=true
 fi
 
-secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 10
+secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 11
 
 if [ "$secure_tcp_seq" = "" ]; then
-   exit 11
+   exit 12
 fi
 
 if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2 || error_code=12
+   sysctl -w kernel.kptr_restrict=2 || error_code=13
 fi
 
 if [ "$secure_tcp_seq" = "0000000000000000" ]; then
-   error_code=13
+   error_code=14
    exit "$error_code"
 fi
 
