@@ -3,7 +3,7 @@
 set -x
 set -e
 
-test -f /dev/random || exit 2
+test -e /dev/random || exit 2
 
 command -v hexdump >/dev/null || exit 3
 
