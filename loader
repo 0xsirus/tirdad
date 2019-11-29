@@ -3,6 +3,8 @@
 set -x
 set -e
 
+test -f /dev/random
+
 ## https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
 ## https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
 random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)"
