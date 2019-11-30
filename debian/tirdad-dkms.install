@@ -7,6 +7,5 @@ module/* usr/src/tirdad-0.1/module
 Makefile usr/src/tirdad-0.1/
 load.c usr/src/tirdad-0.1/
 
-loader usr/lib/tirdad/
-
-tirdad.service lib/systemd/system/
+debian/loader usr/lib/tirdad/
+debian/tirdad.service lib/systemd/system/
