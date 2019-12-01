@@ -58,7 +58,7 @@ int main(int argc,char **argv){
 
     if (argc!=2)
     	print_usage();
-
+    	
     if (!strcmp(argv[1],"start")){
 		getcwd(cwd,511);
 		sec_str[0] = 0;
@@ -73,7 +73,7 @@ int main(int argc,char **argv){
 			int n;
 
 			n=read(f_rand,&sec_rnd[i],1);
-			if (n==0){
+			if (n<1){
 				perror("not enough random bytes");
 				exit(-1);
 			}
@@ -82,7 +82,7 @@ int main(int argc,char **argv){
 		}
 
 		secure_tcp_seq_adr = get_adr("secure_tcp_seq",kallsyms);
-		sprintf(cmd,"insmod %s/module/tirdad.ko _seq_secret='%s' _tcp_secure_seq_adr='%016lx'",cwd,sec_str,secure_tcp_seq_adr);
+		sprintf(cmd,"insmod %s/module/tirdad.ko _seq_secret='%s' _tcp_secure_seq_adr='%016lx'",cwd,sec_str,secure_tcp_seq_adr);	
 		printf("[>] Installing module...\n");
 		system(cmd);
 		printf("[>] Exiting normally...\n");

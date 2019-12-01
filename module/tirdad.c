@@ -73,7 +73,7 @@ int store_p_bits(unsigned long address, unsigned char bits){
 
 	mm = current->mm;
 	pgd = pgd_offset(mm, address);
-
+		
 	if (pgd_none(*pgd) || unlikely(pgd_bad(*pgd))){
 		return -1;
 	}
@@ -82,16 +82,14 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	cbit = bits & op_num;
 	if (cbit){
 	    ent_val = ent_val | 2;
-
-	}else{
+	}else{    
 	    ent_val = ent_val & ~((u8)2);
-
-	}
+	}	
 	*((unsigned long*)pgd) = ent_val;
-
+   	
 	p4d = p4d_offset(pgd,address);
 	pud = pud_offset(p4d, address);
-
+	
 	ent_val = *((unsigned long*)pud);
 	op_num = 2;
 	cbit = bits & op_num;
@@ -105,6 +103,14 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	    return 1;
 	}
 	pmd = pmd_offset(pud, address);
+	/*
+	 *	We don't have to check for this
+	 *	but if this macro triggers a bug
+	 *	here there's already something wrong
+	 *	with mappings.
+	 *	I leave it to stay here for the
+	 *	sake of completeness.
+	*/
 	VM_BUG_ON(pmd_trans_huge(*pmd));
 	ent_val = *((unsigned long*)pmd);
 
@@ -145,7 +151,7 @@ int hook_init(void){
 	p4d_t *p4d;
 	pud_t *pud;
 	pmd_t *pmd;
-	pte_t *ptep;
+	pte_t *ptep; 
 	unsigned long ent_val;
 	struct mm_struct *mm;
 	unsigned short ps = 1 << 7;
@@ -202,14 +208,14 @@ int hook_init(void){
 
 	if (!ptep){
 		return -1;
-
 	}
+
 	ent_val = *((unsigned long*)(ptep));
 	cbit = ent_val & 2;
 	if (cbit) p_bits = p_bits | 8;
 
-
-
+    
+    
 install:
 
 	store_p_bits(tcp_secure_seq_adr,0x0F);
