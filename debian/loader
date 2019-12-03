@@ -50,11 +50,11 @@ if [ "$string_length_of_secure_tcp_seq" -lt "16" ]; then
 fi
 
 if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2 >/dev/null || error_code=1
+   sysctl -w kernel.kptr_restrict=2 >/dev/null || error_code=15
 fi
 
 if [ "$secure_tcp_seq" = "0000000000000000" ]; then
-   error_code=15
+   error_code=16
    exit "$error_code"
 fi
 
