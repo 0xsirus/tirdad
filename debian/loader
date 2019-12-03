@@ -58,7 +58,7 @@ if [ "$secure_tcp_seq" = "0000000000000000" ]; then
    exit "$error_code"
 fi
 
-modprobe tirdad _seq_secret="$random" _tcp_secure_seq_adr="$secure_tcp_seq"
+modprobe tirdad _seq_secret="$random" _tcp_secure_seq_adr="$secure_tcp_seq" || error_code=17
 
 if [ ! "$error_code" = "" ]; then
    exit "$error_code"
