@@ -16,6 +16,7 @@ command -v hexdump >/dev/null || exit 4
 command -v grep >/dev/null || exit 5
 command -v awk >/dev/null || exit 6
 
+## https://stackoverflow.com/a/34329057
 ## https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
 ## https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
 random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)" || exit 7
