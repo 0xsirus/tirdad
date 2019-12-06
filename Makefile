@@ -7,7 +7,7 @@ all:
 
 clean:
 	rm -r -f \
-		load
+		load \
 		module/tirdad.ko \
 		module/modules.order \
 		module/.tirdad.ko.cmd \
