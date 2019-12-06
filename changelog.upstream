@@ -1,3 +1,19 @@
+commit c9ea2bf964243f1e630f5cae4ff57d5b10935bf4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 6 10:27:50 2019 -0500
+
+    use debhelper dh-systemd automatic installation of systemd unit file
+    
+    no longer use debian/tirdad-dkms.install to install systemd unit file
+    
+    fix lintian error binaries-have-file-conflict
+
+commit 2ca71de657b5bf565c3d88b029e9181de624b04f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 6 10:20:34 2019 -0500
+
+    bumped changelog version
+
 commit 8aa185f7fb337d1d3cb1c3e6145eb59c63c919ae
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Dec 6 10:16:57 2019 -0500

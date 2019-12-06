@@ -1,3 +1,9 @@
+tirdad (0:0.1.5-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Fri, 06 Dec 2019 15:29:21 +0000
+
 tirdad (0:0.1.4-1) unstable; urgency=medium
 
   * New upstream version (local package).
