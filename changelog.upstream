@@ -1,3 +1,98 @@
+commit 48f7901231f8d3837602d5d6b843b974accfd38a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 4 01:03:19 2019 -0500
+
+    comment
+
+commit 0b27eaed8fb135831d8a2743c917bf1dfe364e9a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 3 09:35:22 2019 -0500
+
+    sysinit.target compatibility
+
+commit 6b7c83d4df58e47917281bddf7d3202996590ad8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 3 09:28:24 2019 -0500
+
+    run during sysinit-target since we might temporarily set kernel.kptr_restrict=1
+    
+    for better security
+
+commit 396cfb55bf30895a1ad77308d618cf4f1222b2d4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 3 09:24:06 2019 -0500
+
+    exit codes
+
+commit f14c536a16d373acf5f8913a9deb491d44967367
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 3 09:22:32 2019 -0500
+
+    exit codes
+
+commit 178a52826f2bae6d00d028b6d3ccfac92d53d762
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 3 09:21:40 2019 -0500
+
+    check string length of secure_tcp_seq
+
+commit f5517b096c5c697dbaea7fa306b9cd2811ce85f8
+Merge: 10a2abe 55cbd1d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 3 01:34:30 2019 -0500
+
+    Merge remote-tracking branch '0xsirus/master'
+
+commit 55cbd1d28ea0a2b890402835231eabad85dea3af
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sun Dec 1 15:36:22 2019 -0700
+
+    Removed trailing spaces
+
+commit 10a2abe2dd1e5d769497a5cbaa955c10ae265629
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 1 02:10:51 2019 -0500
+
+    remove trailing spaces
+
+commit 10864b5183a32894444cb543172015434b8e6b36
+Merge: 1f36310 6bc9c54
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 1 02:10:17 2019 -0500
+
+    Merge remote-tracking branch '0xsirus/master'
+
+commit 6bc9c548f2f9ca59a2aa9503b5cd44d507c43fb7
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Nov 30 11:02:27 2019 -0700
+
+    Added minor formatting improvements.
+    Sync with Whonix.
+
+commit 1f363101b1141af81b250a137c86dee6c598ef7a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 30 02:31:37 2019 -0500
+
+    move loader and tirdad.service to /debian folder
+    
+    to make diff with upstream more contained to /debian folder
+    
+    git diff --stat 0xsirus/master load.c
+
+commit e3987c98b612d8f9f28d318a2ced3e52b5aac07a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 30 02:29:06 2019 -0500
+
+    re-add upstream load.c but not use it
+    
+    to make diff with upstream smaller
+
+commit 230d312532c224150b2b6a62ae17bc65b3f9aa9f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 29 08:12:13 2019 -0500
+
+    bumped changelog version
+
 commit 4b94fca1ed6d5a68d9776189eff1f78fc42962aa
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 29 07:14:48 2019 -0500
@@ -115,6 +210,12 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 29 05:05:49 2019 -0500
 
     code simplification: abolish C based loader and dkms hacks replace bash
+
+commit 67b1f553016120b3c2bd002c220dfd54cc4b68dd
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Thu Nov 28 15:02:05 2019 -0700
+
+    Fix typo
 
 commit b0fe64402b81945016669d15db6ef53d31cdfdc1
 Author: Patrick Schleizer <adrelanos@riseup.net>
