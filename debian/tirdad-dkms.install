@@ -8,4 +8,3 @@ Makefile usr/src/tirdad-0.1/
 load.c usr/src/tirdad-0.1/
 
 debian/loader usr/lib/tirdad/
-debian/tirdad.service lib/systemd/system/
