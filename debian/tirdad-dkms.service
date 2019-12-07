@@ -8,7 +8,9 @@ DefaultDependencies=no
 
 Requires=local-fs.target
 After=local-fs.target
-After=systemd-modules-load.service
+
+## Should start before LKRG.
+Before=systemd-modules-load.service
 
 Before=sysinit.target
 Before=network-pre.target
