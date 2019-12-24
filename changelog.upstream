@@ -1,3 +1,21 @@
+commit 7a4ba8f2265f612d23294fb608fab6b24e697bf1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 07:19:44 2019 -0500
+
+    WantedBy=multi-user.target
+
+commit 736cbcdcc486735fe4fab6c990ab58ba959709c8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 07:19:10 2019 -0500
+
+    actually no need to start Before=sysinit.target
+
+commit 31a616dfcac081f3bdbe8a8d55867c0ef37d286f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 8 04:06:22 2019 -0500
+
+    bumped changelog version
+
 commit b16308a10ecca66826695f00ce38534b5be79c97
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Dec 7 12:07:07 2019 -0500
