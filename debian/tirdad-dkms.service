@@ -12,7 +12,6 @@ After=local-fs.target
 ## Should start before LKRG.
 Before=systemd-modules-load.service
 
-Before=sysinit.target
 Before=network-pre.target
 
 [Service]
