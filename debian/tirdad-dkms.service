@@ -20,4 +20,4 @@ RemainAfterExit=yes
 ExecStart=/usr/lib/tirdad/loader
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=multi-user.target
