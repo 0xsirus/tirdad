@@ -10,7 +10,14 @@ Requires=local-fs.target
 After=local-fs.target
 
 ## Should start before LKRG.
-Before=systemd-modules-load.service
+#sudo systemd-analyze verify default.target
+#qubes-sysinit.service: Found ordering cycle on systemd-modules-load.service/start
+#qubes-sysinit.service: Found dependency on tirdad-dkms.service/start
+#qubes-sysinit.service: Found dependency on local-fs.target/start
+#qubes-sysinit.service: Found dependency on qubes-mount-dirs.service/start
+#qubes-sysinit.service: Found dependency on qubes-sysinit.service/start
+#qubes-sysinit.service: Job systemd-modules-load.service/start deleted to break ordering cycle starting with qubes-sysinit.service/start
+#Before=systemd-modules-load.service
 
 Before=network-pre.target
 
