@@ -1,3 +1,34 @@
+commit 7229ec63b9b9cfd25a58e991b2f2554ccd2f4bf2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 17:56:57 2019 -0500
+
+    support not loading through setting kernel parameter notirdad
+    
+    Before=lkrg.service
+
+commit b725e91798a3b170c52451408dcbe23af70dde2b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 10:00:57 2019 -0500
+
+    remove "Should start before LKRG." / "Before=systemd-modules-load.service"
+    
+    because
+    
+    sudo systemd-analyze verify default.target
+    
+    qubes-sysinit.service: Found ordering cycle on systemd-modules-load.service/start
+    qubes-sysinit.service: Found dependency on tirdad-dkms.service/start
+    qubes-sysinit.service: Found dependency on local-fs.target/start
+    qubes-sysinit.service: Found dependency on qubes-mount-dirs.service/start
+    qubes-sysinit.service: Found dependency on qubes-sysinit.service/start
+    qubes-sysinit.service: Job systemd-modules-load.service/start deleted to break ordering cycle starting with qubes-sysinit.service/start
+
+commit 997ab7bc47a66a5f5f2de9120b09d9ac0ec05676
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 08:08:46 2019 -0500
+
+    bumped changelog version
+
 commit 7a4ba8f2265f612d23294fb608fab6b24e697bf1
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Dec 24 07:19:44 2019 -0500
