@@ -13,6 +13,8 @@ Requires=local-fs.target
 After=local-fs.target
 After=systemd-modules-load.service
 
+## 'Before=systemd-modules-load.service' breaks Qubes.
+
 Before=lkrg-dkms.service
 Before=sysinit.target
 Before=network.target
