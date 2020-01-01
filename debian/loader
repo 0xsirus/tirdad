@@ -68,6 +68,10 @@ fi
 modprobe tirdad _seq_secret="$random" _tcp_secure_seq_adr="$secure_tcp_seq" || exit 20
 
 ## https://github.com/0xsirus/tirdad/issues/5
+## /var/log/kern.log is unsuitable. It can during manual testing i.e.
+## 'sudo /usr/lib/tirdad/loader' but not when run through systemctl i.e.
+## 'sudo systemctl restart tirdad-dkms'.
+## https://phabricator.whonix.org/T950
 while read -r line; do
   if echo "$line" | grep --quiet --ignore-case "Installing tirdad hook succeeded" ; then
      exit "$exit_code"
