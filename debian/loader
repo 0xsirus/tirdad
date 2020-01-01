@@ -8,59 +8,68 @@
 #set -x
 
 set -e
+set -o pipefail
+
+exit_code=0
 
 test -e /dev/random || exit 2
 test -f /proc/kallsyms || exit 3
+test -f /var/log/kern.log || exit 4
 
-command -v hexdump >/dev/null || exit 4
-command -v grep >/dev/null || exit 5
-command -v awk >/dev/null || exit 6
+command -v hexdump >/dev/null || exit 5
+command -v grep >/dev/null || exit 6
+command -v awk >/dev/null || exit 7
+command -v tail >/dev/null || exit 8
+command -v timeout >/dev/null || exit 9
 
 ## https://stackoverflow.com/a/34329057
 ## https://www.whonix.org/wiki/Dev/Entropy#Viewpoint:_better_use_.2Fdev.2Frandom
 ## https://forums.whonix.org/t/dev-random-vs-dev-urandom/8571
-random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)" || exit 7
+random="$(hexdump -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random)" || exit 10
 
 if [ "$random" = "" ]; then
-   exit 8
+   exit 11
 fi
 
 string_length_of_random="${#random}"
 
 if [ ! "$string_length_of_random" = "32" ]; then
-   exit 9
+   exit 12
 fi
 
-old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || error_code=10
+old_kptr_restrict="$(sysctl -n kernel.kptr_restrict)" || exit_code=13
 
 if [ "$old_kptr_restrict" = "2" ]; then
-   sysctl -w kernel.kptr_restrict=1 >/dev/null || exit 11
+   sysctl -w kernel.kptr_restrict=1 >/dev/null || exit 14
    re_enable=true
 fi
 
-secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 12
+secure_tcp_seq="$(grep "T secure_tcp_seq" /proc/kallsyms | awk -F ' ' '{print $1}')" || exit 15
 
 if [ "$secure_tcp_seq" = "" ]; then
-   exit 13
+   exit 16
 fi
 
 string_length_of_secure_tcp_seq="${#secure_tcp_seq}"
 
 if [ "$string_length_of_secure_tcp_seq" -lt "16" ]; then
-   exit 14
+   exit 17
 fi
 
 if [ "$re_enable" = "true" ]; then
-   sysctl -w kernel.kptr_restrict=2 >/dev/null || error_code=15
+   sysctl -w kernel.kptr_restrict=2 >/dev/null || exit_code=18
 fi
 
 if [ "$secure_tcp_seq" = "0000000000000000" ]; then
-   error_code=16
-   exit "$error_code"
+   exit_code=19
+   exit "$exit_code"
 fi
 
-modprobe tirdad _seq_secret="$random" _tcp_secure_seq_adr="$secure_tcp_seq" || error_code=17
+modprobe tirdad _seq_secret="$random" _tcp_secure_seq_adr="$secure_tcp_seq" || exit 20
 
-if [ ! "$error_code" = "" ]; then
-   exit "$error_code"
-fi
+## https://github.com/0xsirus/tirdad/issues/5
+while read -r line; do
+  if echo "$line" | grep --quiet --ignore-case "Installing tirdad hook succeeded" ; then
+     exit "$exit_code"
+  fi
+done < <( dmesg --notime --follow )
