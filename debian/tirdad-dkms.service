@@ -13,7 +13,7 @@ Requires=local-fs.target
 After=local-fs.target
 After=systemd-modules-load.service
 
-Before=lkrg.service
+Before=lkrg-dkms.service
 Before=sysinit.target
 Before=network.target
 
