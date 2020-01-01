@@ -1,3 +1,27 @@
+commit 7229d9e2e041c158ee56a4be28890dbf41f6ebba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 1 05:38:14 2020 -0500
+
+    fix, Before=lkrg-dkms.service
+
+commit 2f519d48d8c6f993eaaee1786e2dc424a636b0f5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 1 05:37:11 2020 -0500
+
+    work on LKRG compatibility
+    
+    https://www.whonix.org/wiki/Linux_Kernel_Runtime_Guard_LKRG
+    
+    make loader wait until "Installing tirdad hook succeeded"
+    
+    https://github.com/0xsirus/tirdad/issues/5
+
+commit e5c46b7ce26201db6d1fbfc112d37d15640e887e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 24 18:36:40 2019 -0500
+
+    bumped changelog version
+
 commit 7229ec63b9b9cfd25a58e991b2f2554ccd2f4bf2
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Dec 24 17:56:57 2019 -0500
