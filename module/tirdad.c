@@ -24,14 +24,8 @@
 #include <linux/moduleparam.h>
 #include <linux/cryptohash.h>
 #include <linux/siphash.h>
+#include <linux/random.h>
 
-int _clog = 1;
-
-char *_seq_secret;
-char *_tcp_secure_seq_adr;
-
-module_param(_seq_secret,charp,0);
-module_param(_tcp_secure_seq_adr,charp,0);
 
 siphash_key_t seq_secret;
 siphash_key_t last_secret;
@@ -39,6 +33,28 @@ siphash_key_t last_secret;
 unsigned long tcp_secure_seq_adr;
 u8 p_bits;
 u8 backup_bytes[12];
+
+#define CNORM				"\x1b[0m"
+#define CRED				"\x1b[1;31m"
+#define CGREEN				"\x1b[1;32m"
+
+
+void _s_out(u8 err, char *fmt, ...){
+    va_list argp;
+    char msg_fmt[255];
+
+
+    if (err){
+		strcpy(msg_fmt,CRED"[!] "CNORM);
+    }else{
+		strcpy(msg_fmt,CGREEN"[-] "CNORM);
+    }
+    strcat(msg_fmt,fmt);
+    strcat(msg_fmt,"\n");
+    va_start(argp,fmt);
+    vprintk(msg_fmt,argp);
+    va_end(argp);
+}
 
 u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
 		   __be16 sport, __be16 dport)
@@ -143,8 +159,6 @@ int store_p_bits(unsigned long address, unsigned char bits){
 
 
 int hook_init(void){
-	char keys[2][17];
-	int i;
 	char payload[] = "\x48\xB8\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0";
 	u8* payload_adr;
 	pgd_t *pgd;
@@ -156,21 +170,44 @@ int hook_init(void){
 	struct mm_struct *mm;
 	unsigned short ps = 1 << 7;
 	u8 cbit;
+	int i;
 
+	tcp_secure_seq_adr = 0;
+	memset(&seq_secret.key,0,32);
+	/*
+	 *	Find our function of interest and
+	 *	read some random bytes
+	*/
+	tcp_secure_seq_adr = kallsyms_lookup_name("secure_tcp_seq");
 
-	keys[0][16]=keys[1][16]=0;
-
-	for (i=0;i<32;i++){
-		keys[i/16][i%16] = _seq_secret[i];
+	if (!tcp_secure_seq_adr){
+		_s_out(1,"FATAL: Name lookup failed.");
+		return -1; //EPERM but we use it a as generic error number
 	}
 
- 	sscanf(keys[0],"%016lx",(unsigned long*)&seq_secret.key[0]);
- 	sscanf(keys[1],"%016lx",(unsigned long*)&seq_secret.key[1]);
+	if (wait_for_random_bytes()){
+		_s_out(1,"FATAL: Can't get random bytes form kernel.");
+		return -1;
+	}
+
+	get_random_bytes(&seq_secret.key,32);
+
+	for (i=0;i<32;i++){
+		if ( *( ((u8*)(&seq_secret.key)) + i ) !=0)
+			break;
+	}
+
+	if (i==32){
+		_s_out(1,"FATAL: Random bytes are not valid.");
+		return -1;
+	}
 
 	memcpy(&last_secret,&seq_secret,sizeof(seq_secret));
 
-	sscanf(_tcp_secure_seq_adr,"%016lx",&tcp_secure_seq_adr);
-
+	/*
+	 *	Ok, initialization must have succeeded.
+	 *	Prepare the page tables and install the hook
+	*/
 
 	p_bits=0;
 
@@ -178,7 +215,7 @@ int hook_init(void){
 	pgd = pgd_offset(mm, tcp_secure_seq_adr);
 
 	if (pgd_none(*pgd) || unlikely(pgd_bad(*pgd)))
-		return -1; //EPERM but we use as generic error number
+		return -1;
 
 	ent_val = *((unsigned long*)pgd);
 	cbit = ent_val & 2;
@@ -227,7 +264,7 @@ install:
 
 	store_p_bits(tcp_secure_seq_adr,p_bits);
 
-	printk("[>] Installing tirdad hook succeeded.\n");
+	_s_out(0,"Installing tirdad hook succeeded.");
 
 	return 0;
 }
@@ -237,7 +274,7 @@ void hook_exit(void){
 	memcpy((void*)tcp_secure_seq_adr,backup_bytes,12);
 	store_p_bits(tcp_secure_seq_adr,p_bits);
 
-	printk("[>] Removed tirdad hook successfully\n");
+	_s_out(0,"Removed tirdad hook successfully.");
 }
 module_init(hook_init);
 module_exit(hook_exit);

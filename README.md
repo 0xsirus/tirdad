@@ -19,10 +19,10 @@ apt-get install linux-headers-`uname -r`
 
  Run as root:
 
-`#./load start`
+`#insmod module/tirdad.ko`
 
  You can also disable the module with:
  
-`#./load stop`
+`#rmmod module/tirdad.ko`
 
  After you disable it, the kernel will continue to use its default algorithm to generate initial sequence numbers.
