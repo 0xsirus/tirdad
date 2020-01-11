@@ -31,8 +31,15 @@ siphash_key_t seq_secret;
 siphash_key_t last_secret;
 
 unsigned long tcp_secure_seq_adr;
+
+#define AGGREGATE_KEY_SIZE	16
+#define FUSION_SIZE		12
+
+
 u8 p_bits;
-u8 backup_bytes[12];
+u8 backup_bytes[FUSION_SIZE];
+
+
 
 #define CNORM				"\x1b[0m"
 #define CRED				"\x1b[1;31m"
@@ -173,7 +180,7 @@ int hook_init(void){
 	int i;
 
 	tcp_secure_seq_adr = 0;
-	memset(&seq_secret.key,0,32);
+	memset(&seq_secret.key,0,AGGREGATE_KEY_SIZE);
 	/*
 	 *	Find our function of interest and
 	 *	read some random bytes
@@ -190,7 +197,7 @@ int hook_init(void){
 		return -1;
 	}
 
-	get_random_bytes(&seq_secret.key,32);
+	get_random_bytes(&seq_secret.key,AGGREGATE_KEY_SIZE);
 
 	for (i=0;i<32;i++){
 		if ( *( ((u8*)(&seq_secret.key)) + i ) !=0)
@@ -202,7 +209,7 @@ int hook_init(void){
 		return -1;
 	}
 
-	memcpy(&last_secret,&seq_secret,sizeof(seq_secret));
+	memcpy(&last_secret,&seq_secret,AGGREGATE_KEY_SIZE);
 
 	/*
 	 *	Ok, initialization must have succeeded.
@@ -258,8 +265,8 @@ install:
 	store_p_bits(tcp_secure_seq_adr,0x0F);
 
 	payload_adr = (u8*) tcp_secure_seq_adr;
-	memcpy(backup_bytes,(void*)tcp_secure_seq_adr,12);
-	memcpy((void*)tcp_secure_seq_adr,payload,12);
+	memcpy(backup_bytes,(void*)tcp_secure_seq_adr,FUSION_SIZE);
+	memcpy((void*)tcp_secure_seq_adr,payload,FUSION_SIZE);
 	*((unsigned long*)&payload_adr[2]) = (unsigned long)&secure_tcp_seq_hooked;
 
 	store_p_bits(tcp_secure_seq_adr,p_bits);
@@ -271,7 +278,7 @@ install:
 
 void hook_exit(void){
 	store_p_bits(tcp_secure_seq_adr,0x0F);
-	memcpy((void*)tcp_secure_seq_adr,backup_bytes,12);
+	memcpy((void*)tcp_secure_seq_adr,backup_bytes,FUSION_SIZE);
 	store_p_bits(tcp_secure_seq_adr,p_bits);
 
 	_s_out(0,"Removed tirdad hook successfully.");
