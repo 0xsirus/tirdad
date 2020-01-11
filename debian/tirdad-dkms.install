@@ -5,3 +5,5 @@
 
 module/* usr/src/tirdad-0.1/module
 Makefile usr/src/tirdad-0.1/
+
+debian/30_tirdad.conf usr/lib/modules-load.d/
