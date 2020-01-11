@@ -1,3 +1,22 @@
+commit 1b7f0dac32318bb314c8827be0f886838e2a4097
+Merge: 43ca4c8 4c2b6d3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 11 15:12:23 2020 -0500
+
+    Merge remote-tracking branch '0xsirus/master'
+
+commit 4c2b6d3a02402923edfe211f1c05360f1c9c5d34
+Author: Sirus Shahini <sirus.shahini@gmail.com>
+Date:   Sat Jan 11 11:34:31 2020 -0700
+
+    Cleaned the code a little bit
+
+commit 43ca4c8d2fff5c93cb4581dd8d7872af12205dbc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 11 05:26:04 2020 -0500
+
+    bumped changelog version
+
 commit 07a9578a7e662bb97a93f1ea75f1bd6f4656c644
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 11 05:06:48 2020 -0500
