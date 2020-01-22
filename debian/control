@@ -76,7 +76,7 @@ Description: TCP ISN CPU Information Leak Protection
 
 Package: tirdad-dkms
 Architecture: linux-amd64
-Depends: linux-headers-amd64 [linux-amd64],
+Depends: linux-headers-amd64 [linux-amd64] | linux-headers-generic,
  bsdmainutils, ${shlibs:Depends}, ${misc:Depends}
 Description: TCP Initial Sequence Numbers Randomization - Source Code and DKMS
  tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel
