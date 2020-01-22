@@ -1,3 +1,23 @@
+commit 8d4d5a480c76df8e5647c0da19767a121c6afade
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 22 06:37:00 2020 -0500
+
+    Depends: linux-headers-amd64 [linux-amd64] | linux-headers-generic,
+    
+    https://forums.whonix.org/t/lkrg-on-ubuntu-18-04/8823
+
+commit 489666bdbd9f674ef8a7684e8b99f6f19a595af6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 22 06:26:43 2020 -0500
+
+    refactoring
+
+commit 05dd769e5e709c1061a2f0449e10983430f72132
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 11 15:20:19 2020 -0500
+
+    bumped changelog version
+
 commit 1b7f0dac32318bb314c8827be0f886838e2a4097
 Merge: 43ca4c8 4c2b6d3
 Author: Patrick Schleizer <adrelanos@riseup.net>
