@@ -18,6 +18,7 @@ clean:
 		module/.tirdad.ko.cmd \
 		module/.tirdad.mod.o.cmd \
 		module/.tirdad.o.cmd \
+		module/.tirdad.o.d \
 		module/.tmp_versions \
 		module/Module.symvers \
 		module/tirdad.mod.c \
