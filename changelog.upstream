@@ -1,3 +1,25 @@
+commit 1e3c06d502f6a80c4d7ada6cabe03fd33b12e41d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 14 02:00:43 2020 -0500
+
+    make clean: also remove module/.tirdad.o.d
+
+commit 67b157247004bac1ffa2f975a5e69a83db395175
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 14 01:58:39 2020 -0500
+
+    fix DKMS re-compilation when new kernel gets installed
+    
+    by adding support for variable KERNELRELEASE to makefile
+    
+    https://github.com/0xsirus/tirdad/issues/7
+
+commit b9f49510638a5ac09883d5e1cc2fd911113de106
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 22 06:41:11 2020 -0500
+
+    bumped changelog version
+
 commit 8d4d5a480c76df8e5647c0da19767a121c6afade
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jan 22 06:37:00 2020 -0500
