@@ -1,8 +1,15 @@
-build_path := /lib/modules/$(shell uname -r)/build
+ifneq ($(KERNELRELEASE),)
+	KERNELDIR ?= /lib/modules/$(KERNELRELEASE)/build
+else
+	## KERNELRELEASE not set.
+	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+endif
+
 pwd := $(shell pwd)/module
 
 all:
-	cd module; make -C $(build_path) M=$(pwd)
+	@echo "KERNELDIR: $(KERNELDIR)"
+	cd module; make -C $(KERNELDIR) M=$(pwd)
 
 clean:
 	rm -r -f \
