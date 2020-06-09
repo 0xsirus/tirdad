@@ -104,9 +104,9 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	op_num = 1;
 	cbit = bits & op_num;
 	if (cbit){
-	    ent_val = ent_val | 2;
+	    ent_val |= 2;
 	}else{
-	    ent_val = ent_val & ~((u8)2);
+	    ent_val &= ~((u8)2);
 	}
 	*((unsigned long*)pgd) = ent_val;
 
@@ -117,9 +117,9 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	op_num = 2;
 	cbit = bits & op_num;
 	if (cbit){
-	    ent_val = ent_val | 2;
+	    ent_val |= 2;
 	}else{
-	    ent_val = ent_val & ~((u8)2);
+	    ent_val &= ~((u8)2);
 	}
 	*((unsigned long*)pud) = ent_val;
 	if (!!( ps & *((unsigned long*)pud) ) == 1){
@@ -140,9 +140,9 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	op_num = 4;
 	cbit = bits & op_num;
 	if (cbit){
-	    ent_val = ent_val | 2;
+	    ent_val |= 2;
 	}else{
-	    ent_val = ent_val & ~((u8)2);
+	    ent_val &= ~((u8)2);
 	}
 	*((unsigned long*)pmd) = ent_val;
 	if (!!( ps & *((unsigned long*)pmd) ) == 1){
@@ -156,9 +156,9 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	op_num = 8;
 	cbit = bits & op_num;
 	if (cbit){
-	    ent_val = ent_val | 2;
+	    ent_val |= 2;
 	}else{
-	    ent_val = ent_val & ~((u8)2);
+	    ent_val &= ~((u8)2);
 	}
 	*((unsigned long*)ptep) = ent_val;
 	return 1;
@@ -232,7 +232,7 @@ int hook_init(void){
 	pud = pud_offset(p4d, tcp_secure_seq_adr);
 	ent_val = *((unsigned long*)pud);
 	cbit = ent_val & 2;
-	if (cbit) p_bits = p_bits | 2;
+	if (cbit) p_bits |= 2;
 
 	if (!!( ps & *((unsigned long*)pud) ) == 1){
 	    goto install;
@@ -242,7 +242,7 @@ int hook_init(void){
 	VM_BUG_ON(pmd_trans_huge(*pmd));
 	ent_val = *((unsigned long*)pmd);
 	cbit = ent_val & 2;
-	if (cbit) p_bits = p_bits | 4;
+	if (cbit) p_bits |= 4;
 
 	if (!!( ps & *((unsigned long*)pmd) ) == 1){
 	    goto install;
@@ -256,7 +256,7 @@ int hook_init(void){
 
 	ent_val = *((unsigned long*)(ptep));
 	cbit = ent_val & 2;
-	if (cbit) p_bits = p_bits | 8;
+	if (cbit) p_bits |= 8;
 
 
 
