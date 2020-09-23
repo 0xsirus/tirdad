@@ -22,7 +22,6 @@
 #include <asm/uaccess.h>
 #include <linux/utsname.h>
 #include <linux/moduleparam.h>
-//#include <linux/cryptohash.h>
 #include <linux/siphash.h>
 #include <linux/random.h>
 #include <linux/kprobes.h>
