@@ -172,16 +172,16 @@ int store_p_bits(unsigned long address, unsigned char bits){
 
 #define SYMBOL_LOOKUP(s) (((u64 (*)(const char *))(kasln_adr))(s))
 #define HANDLER(t,l,ret,...) t l ## h_hk(struct kprobe * kp, struct pt_regs * r\
-									__VA_OPT__(,) __VA_ARGS__){\
-										ret;\
-									}
+					__VA_OPT__(,) __VA_ARGS__){\
+						ret;\
+					}
 
 HANDLER(int,pre,return 0)
 HANDLER(void,post,return,unsigned long flags)
 
 int get_kasln_adr(void){
 	struct kprobe h_kprobe;
-    int r;
+	int r;
 
 	memset(&h_kprobe, 0, sizeof(h_kprobe));
 	h_kprobe.pre_handler = preh_hk;
@@ -190,7 +190,7 @@ int get_kasln_adr(void){
 	r = register_kprobe(&h_kprobe);
 	if (!r){
 		kasln_adr=(u64)h_kprobe.addr;
-    }
+	}
 	unregister_kprobe(&h_kprobe);
 
 	return r;
