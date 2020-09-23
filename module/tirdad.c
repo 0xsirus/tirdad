@@ -22,10 +22,10 @@
 #include <asm/uaccess.h>
 #include <linux/utsname.h>
 #include <linux/moduleparam.h>
-#include <linux/cryptohash.h>
+//#include <linux/cryptohash.h>
 #include <linux/siphash.h>
 #include <linux/random.h>
-
+#include <linux/kprobes.h>
 
 siphash_key_t seq_secret;
 siphash_key_t last_secret;
@@ -40,11 +40,17 @@ u8 p_bits;
 u8 backup_bytes[FUSION_SIZE];
 
 
-
+#ifdef COLORED_OUTP
 #define CNORM				"\x1b[0m"
 #define CRED				"\x1b[1;31m"
 #define CGREEN				"\x1b[1;32m"
+#else
+#define CNORM				""
+#define CRED				""
+#define CGREEN				""
+#endif
 
+u64 kasln_adr=0;
 
 void _s_out(u8 err, char *fmt, ...){
     va_list argp;
@@ -164,6 +170,32 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	return 1;
 }
 
+#define SYMBOL_LOOKUP(s) (((u64 (*)(const char *))(kasln_adr))(s))
+#define HANDLER(t,l,ret,...) t l ## h_hk(struct kprobe * kp, struct pt_regs * r\
+									__VA_OPT__(,) __VA_ARGS__){\
+										ret;\
+									}
+
+HANDLER(int,pre,return 0)
+HANDLER(void,post,return,unsigned long flags)
+
+int get_kasln_adr(void){
+	struct kprobe h_kprobe;
+    int r;
+
+	memset(&h_kprobe, 0, sizeof(h_kprobe));
+	h_kprobe.pre_handler = preh_hk;
+	h_kprobe.post_handler = posth_hk;
+	h_kprobe.symbol_name = "kallsyms_lookup_name";
+	r = register_kprobe(&h_kprobe);
+	if (!r){
+		kasln_adr=(u64)h_kprobe.addr;
+    }
+	unregister_kprobe(&h_kprobe);
+
+	return r;
+}
+
 
 int hook_init(void){
 	char payload[] = "\x48\xB8\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0";
@@ -179,13 +211,20 @@ int hook_init(void){
 	u8 cbit;
 	int i;
 
+	if (get_kasln_adr()){
+		_s_out(1,"FATAL: Can't find kallsyms_lookup_name.");
+		return -1;
+	}
+
 	tcp_secure_seq_adr = 0;
 	memset(&seq_secret.key,0,AGGREGATE_KEY_SIZE);
 	/*
 	 *	Find our function of interest and
 	 *	read some random bytes
+	 *	We don't directly call kallsyms_lookup_name()
+	 *	as it's not exported in newer kernels.
 	*/
-	tcp_secure_seq_adr = kallsyms_lookup_name("secure_tcp_seq");
+	tcp_secure_seq_adr = SYMBOL_LOOKUP("secure_tcp_seq");
 
 	if (!tcp_secure_seq_adr){
 		_s_out(1,"FATAL: Name lookup failed.");
