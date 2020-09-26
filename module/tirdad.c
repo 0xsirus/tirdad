@@ -217,12 +217,14 @@ int hook_init(void){
 
 	tcp_secure_seq_adr = 0;
 	memset(&seq_secret.key,0,AGGREGATE_KEY_SIZE);
+
 	/*
 	 *	Find our function of interest and
 	 *	read some random bytes
 	 *	We don't directly call kallsyms_lookup_name()
 	 *	as it's not exported in newer kernels.
 	*/
+
 	tcp_secure_seq_adr = SYMBOL_LOOKUP("secure_tcp_seq");
 
 	if (!tcp_secure_seq_adr){
