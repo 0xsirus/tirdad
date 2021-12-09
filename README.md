@@ -1,7 +1,7 @@
 # tirdad
 tirdad (pronounce /tērdäd/) is a kernel module to hot-patch the Linux kernel to generate random TCP Initial Sequence Numbers for IPv4 TCP connections.
 
-You can refer to this bog post to get familiar with the original issue:
+You can refer to this blog post to get familiar with the original issue:
 
 https://bitguard.wordpress.com/?p=982
 
@@ -25,4 +25,4 @@ apt-get install linux-headers-`uname -r`
  
 `#rmmod module/tirdad.ko`
 
- After you disable it, the kernel will continue to use its default algorithm to generate initial sequence numbers.
+ After you disable it, kernel will continue to use its default algorithm to generate initial sequence numbers.
