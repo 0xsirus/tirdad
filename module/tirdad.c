@@ -25,18 +25,28 @@
 #include <linux/siphash.h>
 #include <linux/random.h>
 #include <linux/kprobes.h>
+#include <linux/in6.h>
 
 siphash_key_t seq_secret;
 siphash_key_t last_secret;
 
-unsigned long tcp_secure_seq_adr;
 
 #define AGGREGATE_KEY_SIZE	16
 #define FUSION_SIZE		12
 
 
-u8 p_bits;
-u8 backup_bytes[FUSION_SIZE];
+struct target_vals{
+	unsigned long adr;
+	unsigned long hook_adr;
+	u8 backup_bytes[FUSION_SIZE];
+
+	/*
+	 *	We expect the two target functions to be
+	 *	placed on the same page but we tread them
+	 *	independently anyways.
+	*/
+	u8 p_bits;
+} seqv4,seqv6;
 
 
 #ifdef COLORED_OUTP
@@ -57,9 +67,9 @@ void _s_out(u8 err, char *fmt, ...){
 
 
     if (err){
-		strcpy(msg_fmt,CRED"[!] "CNORM);
+		strcpy(msg_fmt,CRED"[!] TIRDAD: "CNORM);
     }else{
-		strcpy(msg_fmt,CGREEN"[-] "CNORM);
+		strcpy(msg_fmt,CGREEN"[-] TIRDAD: "CNORM);
     }
     strcat(msg_fmt,fmt);
     strcat(msg_fmt,"\n");
@@ -68,10 +78,7 @@ void _s_out(u8 err, char *fmt, ...){
     va_end(argp);
 }
 
-u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
-		   __be16 sport, __be16 dport)
-{
-	u32 hash;
+siphash_key_t *get_secret(void){
 	u32 temp;
 
 	temp = *((u32*)(&seq_secret.key[0]));
@@ -81,11 +88,43 @@ u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
 	temp>>=8;
 	last_secret.key[1] += temp;
 
+	return &last_secret;
+}
+
+
+u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
+		   __be16 sport, __be16 dport)
+{
+	u32 hash;
+
 	hash = siphash_3u32((__force u32)saddr, (__force u32)daddr,
 			        (__force u32)sport << 16 | (__force u32)dport,
-			        &last_secret);
+			        get_secret());
 	return hash;
 }
+
+
+u32 secure_tcpv6_seq_hooked(const __be32 *saddr, const __be32 *daddr,
+		     __be16 sport, __be16 dport)
+{
+	const struct {
+		struct in6_addr saddr;
+		struct in6_addr daddr;
+		__be16 sport;
+		__be16 dport;
+	} __aligned(SIPHASH_ALIGNMENT) combined = {
+		.saddr = *(struct in6_addr *)saddr,
+		.daddr = *(struct in6_addr *)daddr,
+		.sport = sport,
+		.dport = dport
+	};
+	u32 hash;
+
+	hash = siphash(&combined, offsetofend(typeof(combined), dport),
+		       get_secret());
+	return hash;
+}
+
 int store_p_bits(unsigned long address, unsigned char bits){
 	pgd_t *pgd;
 	pud_t *pud;
@@ -127,7 +166,7 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	    ent_val = ent_val & ~((u8)2);
 	}
 	*((unsigned long*)pud) = ent_val;
-	if (!!( ps & *((unsigned long*)pud) ) == 1){
+	if (!!( ps & ent_val ) == 1){
 	    return 1;
 	}
 	pmd = pmd_offset(pud, address);
@@ -150,7 +189,7 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	    ent_val = ent_val & ~((u8)2);
 	}
 	*((unsigned long*)pmd) = ent_val;
-	if (!!( ps & *((unsigned long*)pmd) ) == 1){
+	if (!!( ps & ent_val ) == 1){
 	    return 1;
 	}
 	ptep=pte_offset_map(pmd, address);
@@ -167,6 +206,90 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	}
 	*((unsigned long*)ptep) = ent_val;
 	return 1;
+}
+
+int install_hook_on(struct target_vals *target){
+	char payload[] = "\x48\xB8\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0";
+	u8* payload_adr;
+	pgd_t *pgd;
+	p4d_t *p4d;
+	pud_t *pud;
+	pmd_t *pmd;
+	pte_t *ptep;
+	unsigned long ent_val;
+	struct mm_struct *mm;
+	unsigned short ps = 1 << 7;
+	u8 cbit;
+	u8 p_bits;
+
+	p_bits=0;
+
+	mm = current->mm;
+	pgd = pgd_offset(mm, target->adr);
+
+	if (pgd_none(*pgd) || unlikely(pgd_bad(*pgd))){
+		_s_out(1,"FATAL: Page tables not accessible.");
+		return -1;
+	}
+
+	ent_val = *((unsigned long*)pgd);
+	cbit = ent_val & 2;
+	if (cbit) p_bits = 1;
+	p4d = p4d_offset(pgd,target->adr);
+
+	pud = pud_offset(p4d, target->adr);
+	ent_val = *((unsigned long*)pud);
+	cbit = ent_val & 2;
+	if (cbit) p_bits = p_bits | 2;
+
+	if (!!( ps & ent_val ) == 1){
+	    goto install;
+	}
+
+	pmd = pmd_offset(pud, target->adr);
+	VM_BUG_ON(pmd_trans_huge(*pmd));
+	ent_val = *((unsigned long*)pmd);
+	cbit = ent_val & 2;
+	if (cbit) p_bits = p_bits | 4;
+
+	if (!!( ps & ent_val ) == 1){
+	    goto install;
+	}
+
+	ptep=pte_offset_map(pmd, target->adr);
+
+	if (!ptep){
+		_s_out(1,"FATAL: Page table entry not accessible.");
+		return -1;
+	}
+
+	ent_val = *((unsigned long*)(ptep));
+	cbit = ent_val & 2;
+	if (cbit) p_bits = p_bits | 8;
+
+install:
+
+	store_p_bits(target->adr,0x0F);
+
+	payload_adr = (u8*) target->adr;
+	memcpy(target->backup_bytes,(void*)target->adr,FUSION_SIZE);
+	memcpy((void*)target->adr,payload,FUSION_SIZE);
+	*((unsigned long*)&payload_adr[2]) = target->hook_adr;
+
+	/*
+	 * Revert entries to original values.
+	*/
+	store_p_bits(target->adr,p_bits);
+
+	target->p_bits=p_bits;
+
+	return 0;
+}
+
+void recover_one(struct target_vals *target){
+	store_p_bits(target->adr,0x0F);
+	memcpy((void*)target->adr,target->backup_bytes,FUSION_SIZE);
+	store_p_bits(target->adr,target->p_bits);
 }
 
 #define SYMBOL_LOOKUP(s) (((u64 (*)(const char *))(kasln_adr))(s))
@@ -197,17 +320,6 @@ int get_kasln_adr(void){
 
 
 int hook_init(void){
-	char payload[] = "\x48\xB8\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0";
-	u8* payload_adr;
-	pgd_t *pgd;
-	p4d_t *p4d;
-	pud_t *pud;
-	pmd_t *pmd;
-	pte_t *ptep;
-	unsigned long ent_val;
-	struct mm_struct *mm;
-	unsigned short ps = 1 << 7;
-	u8 cbit;
 	int i;
 
 	if (get_kasln_adr()){
@@ -215,7 +327,21 @@ int hook_init(void){
 		return -1;
 	}
 
-	tcp_secure_seq_adr = 0;
+#if !IS_ENABLED(CONFIG_IPV6)
+
+	/*
+	 *	A fail-safe for an extremely unlikely situation.
+	 *	If you have a strange custom kernel without IPv6 support,
+	 *	revert to the older versions of tirdad (like commit: 1742ca6).
+	*/
+
+	_s_out(1,"IPv6 is not supported in your system.");
+	return -1;
+#endif
+
+	seqv4.adr = 0;
+	seqv6.adr = 0;
+
 	memset(&seq_secret.key,0,AGGREGATE_KEY_SIZE);
 
 	/*
@@ -225,9 +351,13 @@ int hook_init(void){
 	 *	as it's not exported in newer kernels.
 	*/
 
-	tcp_secure_seq_adr = SYMBOL_LOOKUP("secure_tcp_seq");
+	seqv4.adr = SYMBOL_LOOKUP("secure_tcp_seq");
+	seqv4.hook_adr=(u64)&secure_tcp_seq_hooked;
 
-	if (!tcp_secure_seq_adr){
+	seqv6.adr = SYMBOL_LOOKUP("secure_tcpv6_seq");
+	seqv6.hook_adr=(u64)&secure_tcpv6_seq_hooked;
+
+	if (!seqv4.adr || !seqv6.adr){
 		_s_out(1,"FATAL: Name lookup failed.");
 		return -1; //EPERM but we use it a as generic error number
 	}
@@ -256,72 +386,23 @@ int hook_init(void){
 	 *	Prepare the page tables and install the hook
 	*/
 
-	p_bits=0;
-
-	mm = current->mm;
-	pgd = pgd_offset(mm, tcp_secure_seq_adr);
-
-	if (pgd_none(*pgd) || unlikely(pgd_bad(*pgd)))
-		return -1;
-
-	ent_val = *((unsigned long*)pgd);
-	cbit = ent_val & 2;
-	if (cbit) p_bits = 1;
-	p4d = p4d_offset(pgd,tcp_secure_seq_adr);
-
-	pud = pud_offset(p4d, tcp_secure_seq_adr);
-	ent_val = *((unsigned long*)pud);
-	cbit = ent_val & 2;
-	if (cbit) p_bits = p_bits | 2;
-
-	if (!!( ps & *((unsigned long*)pud) ) == 1){
-	    goto install;
-	}
-
-	pmd = pmd_offset(pud, tcp_secure_seq_adr);
-	VM_BUG_ON(pmd_trans_huge(*pmd));
-	ent_val = *((unsigned long*)pmd);
-	cbit = ent_val & 2;
-	if (cbit) p_bits = p_bits | 4;
-
-	if (!!( ps & *((unsigned long*)pmd) ) == 1){
-	    goto install;
-	}
-
-	ptep=pte_offset_map(pmd, tcp_secure_seq_adr);
-
-	if (!ptep){
+	if (install_hook_on(&seqv4) ||
+		install_hook_on(&seqv6))
+	{
+		_s_out(1,"FATAL: Operation failed.");
 		return -1;
 	}
 
-	ent_val = *((unsigned long*)(ptep));
-	cbit = ent_val & 2;
-	if (cbit) p_bits = p_bits | 8;
-
-
-
-install:
-
-	store_p_bits(tcp_secure_seq_adr,0x0F);
-
-	payload_adr = (u8*) tcp_secure_seq_adr;
-	memcpy(backup_bytes,(void*)tcp_secure_seq_adr,FUSION_SIZE);
-	memcpy((void*)tcp_secure_seq_adr,payload,FUSION_SIZE);
-	*((unsigned long*)&payload_adr[2]) = (unsigned long)&secure_tcp_seq_hooked;
-
-	store_p_bits(tcp_secure_seq_adr,p_bits);
-
-	_s_out(0,"Installing tirdad hook succeeded.");
+	_s_out(0,"Hooks are ready. Operation completed without errors.");
 
 	return 0;
 }
 
 void hook_exit(void){
-	store_p_bits(tcp_secure_seq_adr,0x0F);
-	memcpy((void*)tcp_secure_seq_adr,backup_bytes,FUSION_SIZE);
-	store_p_bits(tcp_secure_seq_adr,p_bits);
+	recover_one(&seqv4);
+	recover_one(&seqv6);
 
-	_s_out(0,"Removed tirdad hook successfully.");
+	_s_out(0,"Removed hooks. Exiting normally.");
 }
 module_init(hook_init);
 module_exit(hook_exit);
