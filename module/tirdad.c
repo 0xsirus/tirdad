@@ -6,7 +6,6 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/kernel.h>
 #include <linux/list.h>
 #include <linux/string.h>
 #include <linux/types.h>
@@ -42,7 +41,7 @@ struct target_vals{
 
 	/*
 	 *	We expect the two target functions to be
-	 *	placed on the same page but we tread them
+	 *	placed on the same page but we treat them
 	 *	independently anyways.
 	*/
 	u8 p_bits;
@@ -359,7 +358,7 @@ int hook_init(void){
 
 	if (!seqv4.adr || !seqv6.adr){
 		_s_out(1,"FATAL: Name lookup failed.");
-		return -1; //EPERM but we use it a as generic error number
+		return -1; //EPERM but we use it as a generic error number
 	}
 
 	if (wait_for_random_bytes()){
