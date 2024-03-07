@@ -58,6 +58,28 @@ struct target_vals{
 #define CGREEN				""
 #endif
 
+
+void _s_out(u8 err, char *fmt, ...);
+siphash_key_t *get_secret(void);
+u32 secure_tcp_seq_hooked(__be32 , __be32 , __be16 , __be16 );
+u32 secure_tcpv6_seq_hooked(const __be32 *, const __be32 *,__be16 , __be16 );
+int store_p_bits(unsigned long , unsigned char );
+int install_hook_on(struct target_vals *);
+void recover_one(struct target_vals *);
+int get_kasln_adr(void);
+int hook_init(void);
+void hook_exit(void);
+int preh_hk(struct kprobe * kp, struct pt_regs *);
+void posth_hk(struct kprobe * kp, struct pt_regs *,unsigned long);
+
+
+#ifdef pte_offset_map
+#define _pte_direct pte_offset_map
+#else
+#define _pte_direct __pte_map
+#endif
+
+
 u64 kasln_adr=0;
 
 void _s_out(u8 err, char *fmt, ...){
@@ -191,7 +213,7 @@ int store_p_bits(unsigned long address, unsigned char bits){
 	if (!!( ps & ent_val ) == 1){
 	    return 1;
 	}
-	ptep=pte_offset_map(pmd, address);
+	ptep=_pte_direct(pmd, address);
 	if (!ptep){
 		return -1;
 	}
@@ -255,7 +277,7 @@ int install_hook_on(struct target_vals *target){
 	    goto install;
 	}
 
-	ptep=pte_offset_map(pmd, target->adr);
+	ptep=_pte_direct(pmd, target->adr);
 
 	if (!ptep){
 		_s_out(1,"FATAL: Page table entry not accessible.");
