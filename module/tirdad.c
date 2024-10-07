@@ -26,11 +26,6 @@
 #include <linux/kprobes.h>
 #include <linux/in6.h>
 
-siphash_key_t seq_secret;
-siphash_key_t last_secret;
-
-
-#define AGGREGATE_KEY_SIZE	16
 #define FUSION_SIZE		12
 
 
@@ -60,7 +55,6 @@ struct target_vals{
 
 
 void _s_out(u8 err, char *fmt, ...);
-siphash_key_t *get_secret(void);
 u32 secure_tcp_seq_hooked(__be32 , __be32 , __be16 , __be16 );
 u32 secure_tcpv6_seq_hooked(const __be32 *, const __be32 *,__be16 , __be16 );
 int store_p_bits(unsigned long , unsigned char );
@@ -78,7 +72,6 @@ void posth_hk(struct kprobe * kp, struct pt_regs *,unsigned long);
 #else
 #define _pte_direct __pte_map
 #endif
-
 
 u64 kasln_adr=0;
 
@@ -99,28 +92,11 @@ void _s_out(u8 err, char *fmt, ...){
     va_end(argp);
 }
 
-siphash_key_t *get_secret(void){
-	u32 temp;
-
-	temp = *((u32*)(&seq_secret.key[0]));
-	temp>>=8;
-	last_secret.key[0] += temp;
-	temp = *((u32*)(&seq_secret.key[1]));
-	temp>>=8;
-	last_secret.key[1] += temp;
-
-	return &last_secret;
-}
-
-
 u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
 		   __be16 sport, __be16 dport)
 {
 	u32 hash;
-
-	hash = siphash_3u32((__force u32)saddr, (__force u32)daddr,
-			        (__force u32)sport << 16 | (__force u32)dport,
-			        get_secret());
+	get_random_bytes(((char *)&hash), sizeof(u32));
 	return hash;
 }
 
@@ -128,21 +104,8 @@ u32 secure_tcp_seq_hooked(__be32 saddr, __be32 daddr,
 u32 secure_tcpv6_seq_hooked(const __be32 *saddr, const __be32 *daddr,
 		     __be16 sport, __be16 dport)
 {
-	const struct {
-		struct in6_addr saddr;
-		struct in6_addr daddr;
-		__be16 sport;
-		__be16 dport;
-	} __aligned(SIPHASH_ALIGNMENT) combined = {
-		.saddr = *(struct in6_addr *)saddr,
-		.daddr = *(struct in6_addr *)daddr,
-		.sport = sport,
-		.dport = dport
-	};
 	u32 hash;
-
-	hash = siphash(&combined, offsetofend(typeof(combined), dport),
-		       get_secret());
+	get_random_bytes(((char *)&hash), sizeof(u32));
 	return hash;
 }
 
@@ -341,8 +304,6 @@ int get_kasln_adr(void){
 
 
 int hook_init(void){
-	int i;
-
 	if (get_kasln_adr()){
 		_s_out(1,"FATAL: Can't find kallsyms_lookup_name.");
 		return -1;
@@ -363,11 +324,9 @@ int hook_init(void){
 	seqv4.adr = 0;
 	seqv6.adr = 0;
 
-	memset(&seq_secret.key,0,AGGREGATE_KEY_SIZE);
-
 	/*
 	 *	Find our function of interest and
-	 *	read some random bytes
+	 *	ensure RNG is initialized
 	 *	We don't directly call kallsyms_lookup_name()
 	 *	as it's not exported in newer kernels.
 	*/
@@ -384,23 +343,9 @@ int hook_init(void){
 	}
 
 	if (wait_for_random_bytes()){
-		_s_out(1,"FATAL: Can't get random bytes form kernel.");
+		_s_out(1,"FATAL: Can't get random bytes from kernel.");
 		return -1;
 	}
-
-	get_random_bytes(&seq_secret.key,AGGREGATE_KEY_SIZE);
-
-	for (i=0;i<32;i++){
-		if ( *( ((u8*)(&seq_secret.key)) + i ) !=0)
-			break;
-	}
-
-	if (i==32){
-		_s_out(1,"FATAL: Random bytes are not valid.");
-		return -1;
-	}
-
-	memcpy(&last_secret,&seq_secret,AGGREGATE_KEY_SIZE);
 
 	/*
 	 *	Ok, initialization must have succeeded.
