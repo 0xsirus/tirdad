@@ -82,21 +82,20 @@ void posth_hk(struct kprobe * kp, struct pt_regs *,unsigned long);
 
 u64 kasln_adr=0;
 
+
 void _s_out(u8 err, char *fmt, ...){
-    va_list argp;
-    char msg_fmt[255];
+	va_list argp;
+	char msg_fmt[255];
 
+	if (err){
+		snprintf(msg_fmt, 255, CRED"[!] TIRDAD: "CNORM"%s\n", fmt);
+	}else{
+		snprintf(msg_fmt, 255, CGREEN"[!] TIRDAD: "CNORM"%s\n", fmt);
+	}
 
-    if (err){
-		strcpy(msg_fmt,CRED"[!] TIRDAD: "CNORM);
-    }else{
-		strcpy(msg_fmt,CGREEN"[-] TIRDAD: "CNORM);
-    }
-    strcat(msg_fmt,fmt);
-    strcat(msg_fmt,"\n");
-    va_start(argp,fmt);
-    vprintk(msg_fmt,argp);
-    va_end(argp);
+	va_start(argp,fmt);
+	vprintk(msg_fmt,argp);
+	va_end(argp);
 }
 
 siphash_key_t *get_secret(void){
