@@ -159,7 +159,7 @@ int hook_init(void){
 #endif
 
 	/*
-	 *	ensure RNG is initialized
+	 *	Ensure RNG is initialized
 	 */
 
 	if (wait_for_random_bytes()){
@@ -168,8 +168,7 @@ int hook_init(void){
 	}
 
 	/*
-	 *	Ok, initialization must have succeeded.
-	 *	Install the hook
+	 *	Install the hooks
 	 */
 
 	_s_out(0, "Installing ISN hooks...");
