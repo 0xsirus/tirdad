@@ -97,7 +97,7 @@ u64 get_isn_ts(const struct net *net){
 	get_random_bytes(((u8 *)&(seq_ts.seq)), sizeof(u32));
 
 	if (READ_ONCE(net->ipv4.sysctl_tcp_timestamps) == 1)
-		get_random_bytes(((char *)&(seq_ts.ts_off)), sizeof(u32));
+		get_random_bytes(((u8 *)&(seq_ts.ts_off)), sizeof(u32));
 
 	return seq_ts.hash64;
 }
