@@ -37,4 +37,4 @@ After you disable it, kernel will continue to use its default algorithm to
 generate initial sequence numbers.
 
 For kernels 6.18.17 and newer, tirdad randomizes both ISN and initial TCP
-timestamp (if enabled).
+timestamp offset (if enabled).
