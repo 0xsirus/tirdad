@@ -22,13 +22,13 @@ apt-get install linux-headers-`uname -r`
 
 Run as root:
 
-`#insmod module/tirdad.ko`
+`# insmod module/tirdad.ko`
 
 You can also disable the module with:
 
-`#echo 0 | tee /sys/kernel/livepatch/tirdad/enabled`
+`# echo 0 | tee /sys/kernel/livepatch/tirdad/enabled`
 
-`#rmmod module/tirdad.ko`
+`# rmmod module/tirdad.ko`
 
 If you use the legacy version, you only need to run `rmmod` (the second
 command).
@@ -38,3 +38,11 @@ generate initial sequence numbers.
 
 For kernels 6.18.17 and newer, tirdad randomizes both ISN and initial TCP
 timestamp offset (if enabled).
+
+Optionally run the evaluator to verify the module is working correctly:
+
+`# evaulator/run`
+
+You do not need to run it every time after installing the module. It's only
+meant to be used after kernel upgrades to make sure the module is consistent
+with new kernel.
