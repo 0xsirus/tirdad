@@ -613,11 +613,19 @@ void *time_check(void *arg){
 	}
 }
 
+int _version(int major, int minor, int patch){
+	return (
+		major << 16 |
+		minor << 8  |
+		patch
+	);
+}
 
 void check_kernel(){
 	struct utsname info;
 	int result;
-	char build_version[64];
+	char build_version_str[64];
+	int build_version = 0;
 	int major, minor, patch;
 
 	result = uname(&info);
@@ -625,20 +633,17 @@ void check_kernel(){
 		_cerr("uname failed");
 
 	sscanf(info.release,"%d.%d.%d", &major, &minor, &patch);
-	sprintf(build_version, "%d.%d.%d", major, minor, patch);
-	_crep("Kernel: %s" , build_version);
-	if (major <6)
+	build_version = _version(major, minor, patch);
+	sprintf(build_version_str, "%d.%d.%d", major, minor, patch);
+	_crep("Kernel: %s" , build_version_str);
+
+	if (build_version <  _version(6, 12, 94) ||
+		(build_version >= _version(6, 13, 0) &&
+		build_version <  _version(6, 18, 17)))
 		ts_off_supported = 0;
-	else if (major > 6)
-		ts_off_supported = 1;
-	else if(minor < 18)
-		ts_off_supported = 0;
-	else if (minor > 18)
-		ts_off_supported = 1;
-	else if (patch >= 17)
-		ts_off_supported = 1;
 	else
-		ts_off_supported =0;
+		ts_off_supported = 1;
+
 
 	if (!ts_off_supported){
 		_crep("Timestamp offset randomization is not supported in this system.");

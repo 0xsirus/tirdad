@@ -44,7 +44,10 @@ void _s_out(u8 err, char *fmt, ...){
 	va_end(argp);
 }
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 18, 17)
+#if       LINUX_VERSION_CODE <  KERNEL_VERSION(6, 12, 94) || \
+	( LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0)  && \
+	  LINUX_VERSION_CODE <  KERNEL_VERSION(6, 18, 17) )
+
 
 u32 secure_tcp_seq_hooked(__be32 , __be32 , __be16 , __be16 );
 u32 secure_tcpv6_seq_hooked(const __be32 *, const __be32 *,__be16 , __be16 );
@@ -172,6 +175,7 @@ int hook_init(void){
 	 */
 
 	_s_out(0, "Installing ISN hooks...");
+
 	if (! klp_enable_patch(&patch)){
 		_s_out(0, "Hooks ready.");
 		return 0;
